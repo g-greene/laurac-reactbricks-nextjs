@@ -18,7 +18,6 @@ interface SectionProps {
   className?: string
   children?: React.ReactNode
   noOverflowX?: boolean
-  overflow: string
 }
  
 const Section: React.FC<SectionProps> = ({
