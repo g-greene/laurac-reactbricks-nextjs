@@ -212,7 +212,7 @@ export const containerSizeEditProps: types.ISideEditProp = {
     options: [
       { value: 'medium', label: 'Medium' },
       { value: 'small', label: 'Small' },
-      // { value: 'full', label: 'Full-width' },
+      { value: 'full', label: 'Full-width' },
     ],
   },
 }
