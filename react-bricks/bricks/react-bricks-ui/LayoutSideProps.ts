@@ -17,8 +17,11 @@ export interface LayoutProps {
   borderTop: Border
   borderBottom: Border
   width?: Size
+  maxWidth?: number
   paddingTop: Padding
+  paddingLeft: Padding
   paddingBottom: Padding
+  paddingRight: Padding
 }
 
 export const backgroundColorsEditProps: types.ISideEditProp = {
@@ -99,8 +102,42 @@ export const sectionPaddingsEditProps: types.ISideEditProp[] = [
     },
   },
   {
+    name: 'paddingRight',
+    label: 'Padding Right',
+    type: types.SideEditPropType.Select,
+    selectOptions: {
+      display: types.OptionsDisplay.Select,
+      options: [
+        { value: '20', label: '20' },
+        { value: '16', label: '16' },
+        { value: '12', label: '12' },
+        { value: '10', label: '10' },
+        { value: '8', label: '8' },
+        { value: '6', label: '6' },
+        { value: '0', label: 'None' },
+      ],
+    },
+  },
+  {
     name: 'paddingBottom',
     label: 'Padding Bottom',
+    type: types.SideEditPropType.Select,
+    selectOptions: {
+      display: types.OptionsDisplay.Select,
+      options: [
+        { value: '20', label: '20' },
+        { value: '16', label: '16' },
+        { value: '12', label: '12' },
+        { value: '10', label: '10' },
+        { value: '8', label: '8' },
+        { value: '6', label: '6' },
+        { value: '0', label: 'None' },
+      ],
+    },
+  },
+  {
+    name: 'paddingLeft',
+    label: 'Padding Left',
     type: types.SideEditPropType.Select,
     selectOptions: {
       display: types.OptionsDisplay.Select,
