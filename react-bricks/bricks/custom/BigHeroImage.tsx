@@ -32,6 +32,7 @@ const BigHeroImage: types.Brick<BigHeroImageProps> = ({
       backgroundColor={backgroundColor}
       borderTop={borderTop}
       borderBottom={borderBottom}
+      overflow='hidden'
     >
       <Container
         size={width}
