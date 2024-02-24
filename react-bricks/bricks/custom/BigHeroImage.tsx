@@ -46,15 +46,17 @@ const BigHeroImage: types.Brick<BigHeroImageProps> = ({
 
 BigHeroImage.schema = {
   name: 'big-hero-image',
-  label: 'Image',
+  label: 'Big Hero Image',
   category: 'single column / blog',
-  tags: ['blog', 'image', 'single image'],
+  tags: ['blog', 'image', 'big hero image', 'single image'],
   previewImageUrl: `/bricks-preview-images/${blockNames.BigImage}.png`,
   getDefaultProps: () => ({
     ...sectionDefaults,
     width: 'small',
     paddingTop: '12',
+    paddingRight: '0',
     paddingBottom: '12',
+    paddingLeft: '0',
     image: photos.SEASIDE,
   }),
   sideEditProps: [

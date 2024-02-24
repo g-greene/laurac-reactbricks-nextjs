@@ -85,6 +85,7 @@ import PlanFeature from './pricing/PlanFeature'
 import Title from './singleColumnContent/Title/Title'
 import Paragraph from './singleColumnContent/Paragraph/Paragraph'
 import BigImage from './singleColumnContent/BigImage/BigImage'
+import BigHeroImage from '../custom/BigHeroImage'
 import Video from './singleColumnContent/Video/Video'
 import Code from './singleColumnContent/Code/Code'
 import Table from './singleColumnContent/Table/Table'
@@ -177,6 +178,7 @@ const allBricks: types.Theme = {
         Title,
         Paragraph,
         BigImage,
+        BigHeroImage,
         Video,
         Code,
         Table,
@@ -273,6 +275,7 @@ export {
   Code,
   Paragraph,
   BigImage,
+  BigHeroImage,
   Tweet,
   TweetLight,
   Pricing,

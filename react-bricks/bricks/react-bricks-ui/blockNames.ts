@@ -65,6 +65,7 @@ enum blockNames {
   Code = 'code',
   Paragraph = 'paragraph',
   BigImage = 'big-image',
+  BigHeroImage = 'big-hero-image',
   Tweet = 'tweet',
   TweetLight = 'tweet-light',
   Pricing = 'pricing',
