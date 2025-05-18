@@ -1,5 +1,5 @@
-import React from 'react'
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
 import {
   containerWidthSideGroup,
@@ -14,8 +14,8 @@ import TitleSubtitle from '../../shared/components/TitleSubtitle'
 
 interface TitleProps extends LayoutProps {
   backgroundColor: { color: string; className: string }
-  backgroundImage?: types.IImageSource
-  backgroundImageDark?: types.IImageSource
+  backgroundImage: types.IImageSource
+  backgroundImageDark: types.IImageSource
   paddingTop: Padding
   paddingBottom: Padding
   borderTop: Border
@@ -23,6 +23,8 @@ interface TitleProps extends LayoutProps {
   width: Size
   bigCentered: boolean
   extraboldTitle: boolean
+  title: types.TextValue
+  subtitle: types.TextValue
 }
 
 const Title: types.Brick<TitleProps> = ({
@@ -34,6 +36,8 @@ const Title: types.Brick<TitleProps> = ({
   paddingTop,
   paddingBottom,
   width,
+  title,
+  subtitle,
 }) => {
   return (
     <Section
@@ -47,6 +51,8 @@ const Title: types.Brick<TitleProps> = ({
         paddingBottom={paddingBottom}
       >
         <TitleSubtitle
+          title={title}
+          subtitle={subtitle}
           bigCentered={bigCentered}
           extraboldTitle={extraboldTitle}
         />

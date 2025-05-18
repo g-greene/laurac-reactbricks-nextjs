@@ -1,8 +1,5 @@
-import React from 'react'
-import { types } from 'react-bricks/frontend'
-import { Repeater } from 'react-bricks/frontend'
-import Container, { Padding, Size } from '../../shared/components/Container'
-import Section, { Border } from '../../shared/components/Section'
+import classNames from 'classnames'
+import { Repeater, types } from 'react-bricks/rsc'
 
 import blockNames from '../../blockNames'
 import {
@@ -12,14 +9,18 @@ import {
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../../LayoutSideProps'
-import classNames from 'classnames'
-import { icons } from '../../shared/defaultImages'
+import Container from '../../shared/components/Container'
+import Section from '../../shared/components/Section'
 import TitleSubtitle from '../../shared/components/TitleSubtitle'
+import { icons } from '../../shared/defaultImages'
 
 interface CardsProps extends LayoutProps {
   colNumber: string
   withTitle?: boolean
   bigCenteredTitle?: boolean
+  title: types.TextValue
+  subtitle: types.TextValue
+  cards: types.RepeaterItems
 }
 
 const Cards: types.Brick<CardsProps> = ({
@@ -31,6 +32,9 @@ const Cards: types.Brick<CardsProps> = ({
   width,
   withTitle,
   bigCenteredTitle,
+  title,
+  subtitle,
+  cards,
 }) => {
   return (
     <Section
@@ -45,6 +49,8 @@ const Cards: types.Brick<CardsProps> = ({
       >
         {withTitle && (
           <TitleSubtitle
+            title={title}
+            subtitle={subtitle}
             className={classNames(bigCenteredTitle ? 'mb-10' : 'mb-8')}
             bigCentered={bigCenteredTitle}
           />
@@ -55,7 +61,7 @@ const Cards: types.Brick<CardsProps> = ({
             width === 'small' ? 'lg:grid-cols-2' : 'md:grid-cols-2'
           )}
         >
-          <Repeater propName="cards" />
+          <Repeater propName="cards" items={cards} />
         </div>
       </Container>
     </Section>

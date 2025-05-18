@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Image, types, Text, Link, Plain } from 'react-bricks/frontend'
+import { Image, types, Text, Link, Plain } from 'react-bricks/rsc'
 import classNames from 'classnames'
 import blockNames from '../../blockNames'
 import { textColors } from '../../colors'
@@ -10,8 +10,11 @@ export interface FeatureItemProps {
   colsNumber: ColsNumber
   withIcon: boolean
   withLink: boolean
-  linkText: string
   linkPath: string
+  image: types.IImageSource
+  title: types.TextValue
+  text: types.TextValue
+  linkText: types.TextValue
 }
 
 const getColumnClass = (colsNumber: ColsNumber) => {
@@ -29,8 +32,11 @@ const FeatureItem: types.Brick<FeatureItemProps> = ({
   colsNumber,
   withIcon,
   withLink,
-  linkText,
   linkPath,
+  image,
+  title,
+  text,
+  linkText,
 }) => {
   const linkTextPlain =
     typeof linkText === 'string' ? linkText : Plain.serialize(linkText)
@@ -40,6 +46,7 @@ const FeatureItem: types.Brick<FeatureItemProps> = ({
       {withIcon && (
         <Image
           propName="image"
+          source={image}
           alt="feature"
           aspectRatio={1}
           imageClassName="block w-12 h-12 object-contain"
@@ -56,6 +63,7 @@ const FeatureItem: types.Brick<FeatureItemProps> = ({
       <div className="overflow-hidden">
         <Text
           propName="title"
+          value={title}
           placeholder="Title..."
           renderBlock={(props) => (
             <div className={classNames('font-bold mb-1', textColors.GRAY_800)}>
@@ -65,6 +73,7 @@ const FeatureItem: types.Brick<FeatureItemProps> = ({
         />
         <Text
           propName="text"
+          value={text}
           placeholder="Text..."
           renderBlock={(props) => (
             <div className={textColors.GRAY_500}>{props.children}</div>
@@ -81,9 +90,10 @@ const FeatureItem: types.Brick<FeatureItemProps> = ({
             >
               <div>
                 <Text
+                  propName="linkText"
+                  value={linkText}
                   renderBlock={(props) => <p>{props.children}</p>}
                   placeholder="Link..."
-                  propName="linkText"
                 />
               </div>
               <svg
@@ -138,7 +148,7 @@ FeatureItem.schema = {
       name: 'linkPath',
       label: 'Link to',
       type: types.SideEditPropType.Text,
-      show: ({ withLink }) => !!withLink,
+      show: ({ withLink }, page, user) => !!withLink,
     },
   ],
 }

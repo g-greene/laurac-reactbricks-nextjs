@@ -1,11 +1,10 @@
 import classNames from 'classnames'
 import React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
 //import blockNames from '../blockNames'
 import Container from '../shared/components/Container'
 import Section from '../shared/components/Section'
 import {
-  backgroundSideGroup,
   containerSizeEditProps,
   LayoutProps,
   neutralBackgroundSideGroup,
@@ -14,7 +13,9 @@ import {
 } from '../LayoutSideProps'
 import blockNames from '../blockNames'
 
-export interface DocumentsProps extends LayoutProps {}
+export interface DocumentsProps extends LayoutProps {
+  documents: types.RepeaterItems
+}
 
 const Documents: types.Brick<DocumentsProps> = ({
   backgroundColor,
@@ -23,6 +24,7 @@ const Documents: types.Brick<DocumentsProps> = ({
   paddingTop,
   paddingBottom,
   width,
+  documents,
 }) => {
   return (
     <Section
@@ -39,7 +41,7 @@ const Documents: types.Brick<DocumentsProps> = ({
           width === 'small' ? 'lg:grid-cols-2' : 'md:grid-cols-2'
         )}
       >
-        <Repeater propName="documents" />
+        <Repeater propName="documents" items={documents} />
       </Container>
     </Section>
   )

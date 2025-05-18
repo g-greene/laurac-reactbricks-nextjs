@@ -1,13 +1,13 @@
-import * as React from 'react'
 import classNames from 'classnames'
-import { Text, Link, types, useAdminContext } from 'react-bricks/frontend'
+import { Text, Link, types, isAdmin } from 'react-bricks/rsc'
 import blockNames from '../../blockNames'
 import { buttonColors } from '../../colors'
 import { buttonColorsEditProps } from '../../LayoutSideProps'
+import ButtonClient from './ButtonClient'
 
 export interface ButtonProps {
   type: 'button' | 'link'
-  text: string
+  text: types.TextValue
   href: string
   isTargetBlank: boolean
   buttonType: 'submit' | 'button' | 'reset'
@@ -15,12 +15,12 @@ export interface ButtonProps {
     color: string
     classNameSolid: string
     classNameOutline: string
-    classNameGhost: string
   }
   variant: 'solid' | 'outline' | 'ghost'
   padding: 'normal' | 'small'
   className?: string
   simpleAnchorLink: boolean
+  disabled?: boolean
 }
 
 const Button: types.Brick<ButtonProps> = ({
@@ -33,7 +33,9 @@ const Button: types.Brick<ButtonProps> = ({
   padding,
   className,
   simpleAnchorLink = false,
-}) => {
+  text,
+  disabled = false,
+}) => {  
   const target = isTargetBlank
     ? { target: '_blank', rel: 'noopener noreferrer' }
     : {}
@@ -54,15 +56,13 @@ const Button: types.Brick<ButtonProps> = ({
           {
             [buttonColor?.classNameOutline]: variant === 'outline',
           },
-          {
-            [buttonColor?.classNameGhost]: variant === 'ghost',
-          },
           className
         )}
         simpleAnchor={simpleAnchorLink}
       >
         <Text
           propName="text"
+          value={text}
           placeholder="Action"
           renderBlock={({ children }) => <span>{children}</span>}
         />
@@ -70,36 +70,51 @@ const Button: types.Brick<ButtonProps> = ({
     )
   }
 
-  // Button
-  const { isAdmin, previewMode } = useAdminContext()
+  if (!isAdmin() && buttonType !== 'submit') {
+    return (
+      <button
+        type={isAdmin() ? 'button' : buttonType}
+        // type={isAdmin && !previewMode ? 'button' : buttonType}
+        disabled={disabled}
+        //disabled={isAdmin && !previewMode}
+        className={classNames(
+          'inline-block whitespace-nowrap text-center rounded-full font-bold leading-none hover:shadow-lg transition-all ease-out duration-150 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed',
+          padding === 'small'
+            ? 'py-2 px-4 text-sm min-w-[75px]'
+            : 'py-3 px-5 min-w-[120px]',
+          {
+            [buttonColor?.classNameSolid]: variant === 'solid',
+          },
+          {
+            [buttonColor?.classNameOutline]: variant === 'outline',
+          },
+          className
+        )}
+      >
+        <Text
+          propName="text"
+          value={text}
+          placeholder="Action"
+          renderBlock={({ children }) => <span>{children}</span>}
+        />
+      </button>
+    )
+  }
 
   return (
-    <button
-      type={isAdmin && !previewMode ? 'button' : buttonType}
-      //disabled={isAdmin && !previewMode}
-      className={classNames(
-        'inline-block whitespace-nowrap text-center rounded-full font-bold leading-none hover:shadow-lg transition-all ease-out duration-150 hover:-translate-y-0.5',
-        padding === 'small'
-          ? 'py-2 px-4 text-sm min-w-[75px]'
-          : 'py-3 px-5 min-w-[120px]',
-        {
-          [buttonColor?.classNameSolid]: variant === 'solid',
-        },
-        {
-          [buttonColor?.classNameOutline]: variant === 'outline',
-        },
-        {
-          [buttonColor?.classNameGhost]: variant === 'ghost',
-        },
-        className
-      )}
-    >
-      <Text
-        propName="text"
-        placeholder="Action"
-        renderBlock={({ children }) => <span>{children}</span>}
-      />
-    </button>
+    <ButtonClient
+      type={type}
+      href={href}
+      isTargetBlank={isTargetBlank}
+      buttonType={buttonType}
+      buttonColor={buttonColor}
+      variant={variant}
+      padding={padding}
+      className={className}
+      simpleAnchorLink={simpleAnchorLink}
+      text={text}
+      disabled={disabled}
+    ></ButtonClient>
   )
 }
 

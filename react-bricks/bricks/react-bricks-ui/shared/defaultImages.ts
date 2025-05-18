@@ -1,4 +1,4 @@
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
 
 type Images = Record<string, types.IImageSource>
 

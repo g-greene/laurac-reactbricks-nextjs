@@ -1,19 +1,22 @@
-import React from 'react'
-import { RichText, Image, Repeater, types, Link } from 'react-bricks/frontend'
-import blockNames from '../blockNames'
-import { bgColors, textColors } from '../colors'
+import { Image, Link, Repeater, RichText, types } from 'react-bricks/rsc'
+
 import {
   LayoutProps,
   neutralBackgroundSideGroup,
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../LayoutSideProps'
-import { logos } from '../shared/defaultImages'
+import blockNames from '../blockNames'
+import { bgColors, textColors } from '../colors'
 import Container from '../shared/components/Container'
 import Section from '../shared/components/Section'
+import { logos } from '../shared/defaultImages'
 
 interface FooterProps extends LayoutProps {
   siteUrl: string
+  logo: types.IImageSource
+  copyright: types.TextValue
+  columns: types.RepeaterItems
 }
 
 const Footer: types.Brick<FooterProps> = ({
@@ -23,6 +26,9 @@ const Footer: types.Brick<FooterProps> = ({
   paddingTop,
   paddingBottom,
   siteUrl,
+  logo,
+  copyright,
+  columns,
 }) => {
   return (
     <footer>
@@ -40,6 +46,7 @@ const Footer: types.Brick<FooterProps> = ({
             <Link href={siteUrl} className="block mb-4">
               <Image
                 propName="logo"
+                source={logo}
                 alt="Logo"
                 maxWidth={300}
                 imageClassName="w-48 h-7 object-contain object-left"
@@ -47,14 +54,17 @@ const Footer: types.Brick<FooterProps> = ({
             </Link>
             <RichText
               propName="copyright"
+              value={copyright}
               placeholder="Copyright notice"
               renderBlock={({ children }) => (
                 <p className={`text-sm ${textColors.GRAY_500}`}>{children}</p>
               )}
               allowedFeatures={[types.RichTextFeatures.Link]}
-              renderLink={({ children, href }) => (
+              renderLink={({ children, href, target, rel }) => (
                 <Link
                   href={href}
+                  target={target}
+                  rel={rel}
                   className="text-sky-500 hover:text-sky-600 hover:-translate-y-px transition-all ease-out duration-150"
                 >
                   {children}
@@ -62,7 +72,7 @@ const Footer: types.Brick<FooterProps> = ({
               )}
             />
           </div>
-          <Repeater propName="columns" />
+          <Repeater propName="columns" items={columns} />
         </Container>
       </Section>
     </footer>

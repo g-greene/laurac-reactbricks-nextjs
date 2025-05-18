@@ -1,14 +1,18 @@
 import classNames from 'classnames'
 import React from 'react'
-import { File, types, Text, RichText } from 'react-bricks/frontend'
+import { File, types, Text, RichText } from 'react-bricks/rsc'
 //import blockNames from '../blockNames'
 import { AiOutlineFileAdd } from 'react-icons/ai'
-import { FcDownload } from 'react-icons/fc'
 import { FcDocument } from 'react-icons/fc'
 import blockNames from '../blockNames'
+
 export interface DocumentProps {
   color?: { color: string; className: string }
   withSize?: boolean
+  file: types.IFileSource
+  fileName: types.TextValue
+  fileDescription: types.TextValue
+  linkText: types.TextValue
 }
 
 const formatFileSize = (bytes: number) => {
@@ -23,11 +27,18 @@ const formatFileSize = (bytes: number) => {
   }
 }
 
-const Document: types.Brick<DocumentProps> = ({ withSize }) => {
+const Document: types.Brick<DocumentProps> = ({
+  withSize,
+  file,
+  fileName,
+  fileDescription,
+  linkText,
+}) => {
   return (
-    <div className="p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded">
+    <div className="p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded-sm">
       <File
         propName="file"
+        source={file}
         allowedExtensions={['pdf']}
         renderBlock={(file) => {
           return file ? (
@@ -39,6 +50,7 @@ const Document: types.Brick<DocumentProps> = ({ withSize }) => {
               <div className="w-full">
                 <Text
                   propName="fileName"
+                  value={fileName}
                   placeholder="file name..."
                   renderBlock={(props) => (
                     <div
@@ -50,6 +62,8 @@ const Document: types.Brick<DocumentProps> = ({ withSize }) => {
                   )}
                 />
                 <RichText
+                  propName="fileDescription"
+                  value={fileDescription}
                   renderBlock={(props) => (
                     <div
                       className="text-gray-600 font-normal dark:text-white/60"
@@ -59,7 +73,6 @@ const Document: types.Brick<DocumentProps> = ({ withSize }) => {
                     </div>
                   )}
                   placeholder="File description..."
-                  propName="fileDescription"
                 />
 
                 <a
@@ -70,16 +83,17 @@ const Document: types.Brick<DocumentProps> = ({ withSize }) => {
                   }
                 >
                   <Text
+                    propName="linkText"
+                    value={linkText}
                     renderBlock={(props) => (
                       <span className="align-middle" {...props.attributes}>
                         {props.children}
                       </span>
                     )}
                     placeholder=""
-                    propName="linkText"
                   />
                   {withSize && !!file.size && (
-                    <span className="p-1 rounded bg-gray-100 text-gray-500 text-xs ml-2">
+                    <span className="p-1 rounded-sm bg-gray-100 text-gray-500 text-xs ml-2">
                       {formatFileSize(file.size)}
                     </span>
                   )}

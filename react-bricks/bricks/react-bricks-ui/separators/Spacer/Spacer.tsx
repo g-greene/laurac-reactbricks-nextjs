@@ -1,9 +1,9 @@
-import React from 'react'
-import { types } from 'react-bricks/frontend'
-import { bgColors } from '../../colors'
+import { types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
-import Section from '../../shared/components/Section'
+import { bgColors } from '../../colors'
 import { backgroundColorsEditProps, LayoutProps } from '../../LayoutSideProps'
+import Section from '../../shared/components/Section'
 
 export interface SpacerProps extends LayoutProps {
   height: string

@@ -1,6 +1,12 @@
 import classNames from 'classnames'
-import * as React from 'react'
-import { Image, Link, Repeater, RichText, types } from 'react-bricks/frontend'
+import { Image, Link, Repeater, RichText, types } from 'react-bricks/rsc'
+
+import {
+  LayoutProps,
+  backgroundSideGroup,
+  paddingBordersSideGroup,
+  sectionDefaults,
+} from '../../LayoutSideProps'
 import blockNames from '../../blockNames'
 import {
   buttonColors,
@@ -10,14 +16,8 @@ import {
 } from '../../colors'
 import Container from '../../shared/components/Container'
 import Section from '../../shared/components/Section'
-import {
-  backgroundSideGroup,
-  LayoutProps,
-  paddingBordersSideGroup,
-  sectionDefaults,
-} from '../../LayoutSideProps'
-import { photos } from '../../shared/defaultImages'
 import Video from '../../shared/components/Video'
+import { photos } from '../../shared/defaultImages'
 
 export interface TextMediaProps extends LayoutProps {
   mediaType: 'image' | 'multiple-images' | 'video-file' | 'video-streaming'
@@ -32,13 +32,14 @@ export interface TextMediaProps extends LayoutProps {
   heroSizeTitle?: boolean
   platform?: 'youtube' | 'vimeo'
   videoId?: string
-  title: string
-  text: string
-  imageSource?: types.IImageSource
-  buttons?: any[]
-  bulletListItems: any[]
-  badge: any[]
-  logos: any[]
+  title: types.TextValue
+  text: types.TextValue
+  imageSource: types.IImageSource
+  buttons: types.RepeaterItems
+  bulletListItems: types.RepeaterItems
+  badge: types.RepeaterItems
+  logos: types.RepeaterItems
+  videoFile: types.IFileSource
 }
 
 const TextMedia: types.Brick<TextMediaProps> = ({
@@ -59,6 +60,14 @@ const TextMedia: types.Brick<TextMediaProps> = ({
   mediaType,
   platform,
   videoId,
+  title,
+  text,
+  imageSource,
+  buttons,
+  bulletListItems,
+  badge,
+  logos,
+  videoFile,
 }) => {
   const titleColor = textColors.GRAY_900
   const textColor = textColors.GRAY_700
@@ -83,6 +92,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
           >
             <Repeater
               propName="badge"
+              items={badge}
               itemProps={{ textAlign: 'left' }}
               renderWrapper={(items) => (
                 <div className="mb-4 flex justify-center md:justify-start">
@@ -92,6 +102,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
             />
             <RichText
               propName="title"
+              value={title}
               renderBlock={(props) => (
                 <h2
                   className={classNames(
@@ -113,6 +124,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
             />
             <RichText
               propName="text"
+              value={text}
               renderBlock={(props) => (
                 <p
                   className={classNames(
@@ -130,9 +142,11 @@ const TextMedia: types.Brick<TextMediaProps> = ({
                 types.RichTextFeatures.Bold,
                 types.RichTextFeatures.Link,
               ]}
-              renderLink={({ children, href }) => (
+              renderLink={({ children, href, target, rel }) => (
                 <Link
                   href={href}
+                  target={target}
+                  rel={rel}
                   className="inline-block text-sky-500 hover:text-sky-600 hover:-translate-y-px transition-all ease-out duration-150"
                 >
                   {children}
@@ -141,6 +155,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
             />
             <Repeater
               propName="bulletListItems"
+              items={bulletListItems}
               itemProps={{
                 className: bigText ? 'text-lg' : 'text-base',
               }}
@@ -152,6 +167,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
             />
             <Repeater
               propName="buttons"
+              items={buttons}
               renderWrapper={(items) => (
                 <div className="flex items-center space-x-4 mt-4">{items}</div>
               )}
@@ -165,7 +181,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
                 'md:w-1/2 md:mt-0 md:mb-0'
               )}
             >
-              <Repeater propName="logos" />
+              <Repeater propName="logos" items={logos} />
             </div>
           ) : mediaType === 'image' ? (
             <div
@@ -177,6 +193,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
             >
               <Image
                 propName="imageSource"
+                source={imageSource}
                 alt="Image"
                 imageClassName={classNames(
                   { 'rounded-lg': isRounded },
@@ -191,6 +208,7 @@ const TextMedia: types.Brick<TextMediaProps> = ({
           ) : mediaType === 'video-file' ? (
             <Video
               type="file"
+              videoFile={videoFile}
               className={classNames(
                 mobileImageTop ? 'mt-0 mb-10' : 'mt-10 mb-0',
                 'w-full md:w-1/2 md:mt-0 md:mb-0'
@@ -301,7 +319,7 @@ TextMedia.schema = {
     },
     {
       groupName: 'Image',
-      show: ({ mediaType }) => mediaType === 'image',
+      //show: ({ mediaType }) => mediaType === 'image',
       defaultOpen: false,
       props: [
         {
@@ -319,13 +337,13 @@ TextMedia.schema = {
         },
         {
           name: 'hasShadow',
-          label: 'Image shadow',
+          label: 'Image shadow-sm',
           type: types.SideEditPropType.Boolean,
           show: (props) => props.mediaType === 'image',
         },
         {
           name: 'isRounded',
-          label: 'Image rounded corners',
+          label: 'Image rounded-sm corners',
           type: types.SideEditPropType.Boolean,
           show: (props) => props.mediaType === 'image',
         },

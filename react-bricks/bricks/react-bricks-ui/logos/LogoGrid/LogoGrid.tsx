@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
 
 import classNames from 'classnames'
 import Container from '../../shared/components/Container'
@@ -17,6 +17,8 @@ import { logos } from '../../shared/defaultImages'
 
 export interface LogoGridProps extends LayoutProps {
   targetBlank: boolean
+  badge: types.RepeaterItems
+  logos: types.RepeaterItems
 }
 
 const LogoGrid: types.Brick<LogoGridProps> = ({
@@ -27,23 +29,40 @@ const LogoGrid: types.Brick<LogoGridProps> = ({
   paddingBottom,
   width,
   targetBlank,
+  badge,
+  logos,
 }) => {
   return (
-    <Section backgroundColor={backgroundColor} borderTop={borderTop} borderBottom={borderBottom}>
-      <Container size={width} paddingTop={paddingTop} paddingBottom={paddingBottom}>
+    <Section
+      backgroundColor={backgroundColor}
+      borderTop={borderTop}
+      borderBottom={borderBottom}
+    >
+      <Container
+        size={width}
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
+      >
         <Repeater
           propName="badge"
+          items={badge}
           itemProps={{
             textAlign: 'left',
           }}
-          renderWrapper={(items) => <div className="mb-6 flex justify-start">{items}</div>}
+          renderWrapper={(items) => (
+            <div className="mb-6 flex justify-start">{items}</div>
+          )}
         />
         <div
           className={classNames(
-            'grid gap-5 auto-rows-auto grid-flow-dense grid-cols-[repeat(auto-fill,_minmax(120px,_1fr))] lg:grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))]'
+            'grid gap-5 auto-rows-auto grid-flow-dense grid-cols-[repeat(auto-fill,minmax(120px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))]'
           )}
         >
-          <Repeater propName="logos" itemProps={{ targetBlank }} />
+          <Repeater
+            propName="logos"
+            items={logos}
+            itemProps={{ targetBlank }}
+          />
         </div>
       </Container>
     </Section>

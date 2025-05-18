@@ -1,36 +1,25 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
+
+import NextLinkClient from './NextLinkClient'
 
 const NextLink: types.RenderLocalLink = ({
   href,
+  target,
+  rel,
   className,
   activeClassName,
-  isAdmin,
   children,
 }) => {
-  const router = useRouter()
-
-  let anchorClassName = ''
-
-  if (router.asPath === href) {
-    anchorClassName = `${className} ${activeClassName}`
-  } else {
-    anchorClassName = className
-  }
-
-  if (isAdmin) {
-    return (
-      <Link href={href} className={anchorClassName}>
-        {children}
-      </Link>
-    )
-  }
-
   return (
-    <Link href={href} className={anchorClassName}>
+    <NextLinkClient
+      href={href}
+      target={target}
+      rel={rel}
+      className={className}
+      activeClassName={activeClassName}
+    >
       {children}
-    </Link>
+    </NextLinkClient>
   )
 }
 

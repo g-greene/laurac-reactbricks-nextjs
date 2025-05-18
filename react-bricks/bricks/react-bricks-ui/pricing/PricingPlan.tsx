@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
-import { types } from 'react-bricks/frontend'
-import { RichText, Text, Link, Repeater } from 'react-bricks/frontend'
+import { types, RichText, Text, Link, Repeater } from 'react-bricks/rsc'
 import blockNames from '../blockNames'
 import { pricingColors, PricingColorValue, textColors } from '../colors'
 import { pricingColorsEditProps } from '../LayoutSideProps'
@@ -10,23 +9,41 @@ interface PricingPlanProps {
   pricingColor: PricingColorValue
   withPopularTag: boolean
   buttonLinkPath: string
+  popularTagText: types.TextValue
+  planName: types.TextValue
+  planDescription: types.TextValue
+  planPrice: types.TextValue
+  planConditions: types.TextValue
+  buttonText: types.TextValue
+  featuresTitle: types.TextValue
+  features: types.RepeaterItems
 }
 
 const PricingPlan: types.Brick<PricingPlanProps> = ({
   pricingColor = pricingColors.CYAN.value,
   withPopularTag,
   buttonLinkPath,
+  popularTagText,
+  planName,
+  planDescription,
+  planPrice,
+  planConditions,
+  buttonText,
+  featuresTitle,
+  features,
 }) => {
   return (
     <div
       className={classNames(
-        'm-4 p-5 border border-t-4 rounded flex-1 min-w-[250px] max-w-[350px] text-center flex flex-col sm:w-[250px] md:w-[270px] lg:w-[300px]',
+        'm-4 p-5 border border-t-4 rounded-sm flex-1 min-w-[250px] max-w-[350px] text-center flex flex-col sm:w-[250px] md:w-[270px] lg:w-[300px]',
         pricingColor.mainDivClassName
       )}
     >
       <div className="h-6 self-center">
         {withPopularTag ? (
           <Text
+            propName="popularTagText"
+            value={popularTagText}
             renderBlock={(props) => (
               <div
                 className={classNames(
@@ -38,12 +55,13 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
               </div>
             )}
             placeholder="Tag"
-            propName="popularTagText"
           />
         ) : null}
       </div>
       <div>
         <Text
+          propName="planName"
+          value={planName}
           renderBlock={(props) => (
             <h2
               className={classNames(
@@ -55,21 +73,23 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
             </h2>
           )}
           placeholder="Plan name..."
-          propName="planName"
         />
 
         <RichText
+          propName="planDescription"
+          value={planDescription}
           renderBlock={(props) => (
             <p className={classNames('text-lg', textColors.GRAY_600)}>
               {props.children}
             </p>
           )}
           placeholder="Description..."
-          propName="planDescription"
         />
       </div>
       <div className="text-center mb-4">
         <Text
+          propName="planPrice"
+          value={planPrice}
           renderBlock={(props) => (
             <strong
               className={classNames(
@@ -81,36 +101,39 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
             </strong>
           )}
           placeholder="Price"
-          propName="planPrice"
         />
 
         <Text
+          propName="planConditions"
+          value={planConditions}
           renderBlock={(props) => (
             <p className={classNames('mb-2', textColors.GRAY_500)}>
               {props.children}
             </p>
           )}
           placeholder="per user / per month..."
-          propName="planConditions"
         />
       </div>
       <Link
         href={buttonLinkPath}
         className={classNames(
           'cursor-pointer block mb-8',
-          'text-center text-lg py-2 px-3 sm:px-5 rounded hover:text-white font-medium border-2 hover:shadow-lg transition duration-200',
+          'text-center text-lg py-2 px-3 sm:px-5 rounded-sm hover:text-white font-medium border-2 hover:shadow-lg transition duration-200',
           pricingColor.buttonClassName,
           'dark:hover:text-white'
         )}
       >
         <Text
+          propName="buttonText"
+          value={buttonText}
           renderBlock={(props) => <div>{props.children}</div>}
           placeholder="Action"
-          propName="buttonText"
         />
       </Link>
       <div className="flex-1 flex flex-col ">
         <Text
+          propName="featuresTitle"
+          value={featuresTitle}
           renderBlock={(props) => (
             <p
               className={classNames(
@@ -122,12 +145,12 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
             </p>
           )}
           placeholder="type a text"
-          propName="featuresTitle"
         />
 
         <ul className={classNames('text-lg text-left', textColors.GRAY_700)}>
           <Repeater
             propName="features"
+            items={features}
             itemProps={{ pricingColor }}
             renderItemWrapper={(item) => (
               <li key={item.key} className="flex items-center space-x-2 mb-2">

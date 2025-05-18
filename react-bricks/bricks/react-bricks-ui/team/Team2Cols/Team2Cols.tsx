@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
 import {
   LayoutProps,
@@ -16,6 +16,9 @@ import { avatars } from '../../shared/defaultImages'
 interface Team2ColsProps extends LayoutProps {
   withTitle?: boolean
   bigCenteredTitle?: boolean
+  title: types.TextValue
+  subtitle: types.TextValue
+  members: types.RepeaterItems
 }
 
 const Team2Cols: types.Brick<Team2ColsProps> = ({
@@ -26,6 +29,9 @@ const Team2Cols: types.Brick<Team2ColsProps> = ({
   borderBottom,
   paddingTop,
   paddingBottom,
+  title,
+  subtitle,
+  members,
 }) => {
   return (
     <Section
@@ -40,12 +46,14 @@ const Team2Cols: types.Brick<Team2ColsProps> = ({
       >
         {withTitle && (
           <TitleSubtitle
+            title={title}
+            subtitle={subtitle}
             className={classNames(bigCenteredTitle ? 'mb-12' : 'mb-8')}
             bigCentered={bigCenteredTitle}
           />
         )}
-        <ul className="grid grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] lg:grid-cols-2 gap-8 mb-12">
-          <Repeater propName="members" />
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] lg:grid-cols-2 gap-8 mb-12">
+          <Repeater propName="members" items={members} />
         </ul>
       </Container>
     </Section>

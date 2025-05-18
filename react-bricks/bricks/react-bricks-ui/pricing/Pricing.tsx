@@ -1,18 +1,19 @@
-import React from 'react'
-import { types } from 'react-bricks/frontend'
-import { Repeater } from 'react-bricks/frontend'
-import Container from '../shared/components/Container'
-import Section from '../shared/components/Section'
-import blockNames from '../blockNames'
+import { Repeater, types } from 'react-bricks/rsc'
+
 import {
   LayoutProps,
   neutralBackgroundSideGroup,
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../LayoutSideProps'
+import blockNames from '../blockNames'
 import { pricingColors } from '../colors'
+import Container from '../shared/components/Container'
+import Section from '../shared/components/Section'
 
-interface PricingProps extends LayoutProps {}
+interface PricingProps extends LayoutProps {
+  plans: types.RepeaterItems
+}
 
 const Pricing: types.Brick<PricingProps> = ({
   backgroundColor,
@@ -20,12 +21,21 @@ const Pricing: types.Brick<PricingProps> = ({
   borderBottom,
   paddingTop,
   paddingBottom,
+  plans,
 }) => {
   return (
-    <Section backgroundColor={backgroundColor} borderTop={borderTop} borderBottom={borderBottom}>
-      <Container size="medium" paddingTop={paddingTop} paddingBottom={paddingBottom}>
+    <Section
+      backgroundColor={backgroundColor}
+      borderTop={borderTop}
+      borderBottom={borderBottom}
+    >
+      <Container
+        size="medium"
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
+      >
         <div className={`flex flex-wrap justify-center`}>
-          <Repeater propName="plans" />
+          <Repeater propName="plans" items={plans} />
         </div>
       </Container>
     </Section>

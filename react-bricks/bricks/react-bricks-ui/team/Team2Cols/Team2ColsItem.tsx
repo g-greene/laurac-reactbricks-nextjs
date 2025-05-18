@@ -1,51 +1,58 @@
 import classNames from 'classnames'
 import React from 'react'
-import { Text, Image, types, Plain } from 'react-bricks/frontend'
+import { Text, Image, types, Plain } from 'react-bricks/rsc'
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import blockNames from '../../blockNames'
 import { textColors } from '../../colors'
 import { avatars } from '../../shared/defaultImages'
 
-interface Props {
-  name?: string
+interface Team2ColsItemProps {
   twitter?: string
   linkedin?: string
   github?: string
+  picture: types.IImageSource
+  memberName: types.TextValue
+  jobTitle: types.TextValue
 }
 
-const Team2ColsItem: types.Brick<Props> = ({
-  name,
+const Team2ColsItem: types.Brick<Team2ColsItemProps> = ({
   twitter,
   linkedin,
   github,
+  picture,
+  memberName,
+  jobTitle,
 }) => {
   return (
     <li className="flex space-x-4">
       <Image
-        alt={typeof name === 'string' ? name : Plain.serialize(name)}
         propName="picture"
+        source={picture}
+        alt={typeof memberName === 'string' ? memberName : Plain.serialize(memberName)}
         aspectRatio={1}
         imageClassName="rounded-full w-12 h-12 object-contain"
       />
 
       <div className="ml-3 dark:text-gray-200 min-w-[90px]">
         <Text
+          propName="memberName"
+          value={memberName}
           renderBlock={(props) => (
             <div className={`font-bold ${textColors.GRAY_800}`}>
               {props.children}
             </div>
           )}
           placeholder="Name..."
-          propName="name"
         />
         <Text
+          propName="jobTitle"
+          value={jobTitle}
           renderBlock={(props) => (
             <div className={`${textColors.GRAY_600} mb-2`}>
               {props.children}
             </div>
           )}
           placeholder="Job title..."
-          propName="jobTitle"
         />
         <div className="flex flex-row items-center space-x-2">
           {twitter && (
@@ -109,7 +116,7 @@ Team2ColsItem.schema = {
   // Defaults when a new brick is added
   getDefaultProps: () => ({
     title: 'Thick as a brick',
-    name: 'Alvin Payne',
+    memberName: 'Alvin Payne',
     jobTitle: 'Frontend Developer',
     twitter: 'alvin_payne',
     linkedin: 'alvin_payne',

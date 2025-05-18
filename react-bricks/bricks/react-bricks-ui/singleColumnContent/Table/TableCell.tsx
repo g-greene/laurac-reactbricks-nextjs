@@ -1,6 +1,6 @@
-import React from 'react'
 import classNames from 'classnames'
-import { Text, types } from 'react-bricks/frontend'
+import { Text, types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
 import { textColors } from '../../colors'
 
@@ -10,6 +10,7 @@ export interface TableCellProps {
   isHeader: boolean
   textAlign: TextAlign
   borders: 'none' | 'horizontal' | 'all'
+  cellText: types.TextValue
 }
 
 const getAlignClass = (textAlign: TextAlign) => {
@@ -27,6 +28,7 @@ const TableCell: types.Brick<TableCellProps> = ({
   isHeader = false,
   textAlign = 'left',
   borders,
+  cellText,
 }) => {
   if (isHeader) {
     return (
@@ -39,6 +41,7 @@ const TableCell: types.Brick<TableCellProps> = ({
       >
         <Text
           propName="cellText"
+          value={cellText}
           placeholder=""
           renderBlock={({ children }) => (
             <span className={textColors.GRAY_900}>{children}</span>
@@ -58,6 +61,7 @@ const TableCell: types.Brick<TableCellProps> = ({
     >
       <Text
         propName="cellText"
+        value={cellText}
         placeholder=""
         renderBlock={({ children }) => <span>{children}</span>}
       />

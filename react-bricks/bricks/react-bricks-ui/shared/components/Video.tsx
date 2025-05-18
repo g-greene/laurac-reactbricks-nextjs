@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
-import { types, File } from 'react-bricks/frontend'
+import { types, File } from 'react-bricks/rsc'
 
 type VideoPlatform = 'youtube' | 'vimeo'
 
@@ -18,15 +18,12 @@ export interface StreamingVideoProps {
 
 export interface FileVideoProps {
   type: 'file'
-  file?: {
-    name: string
-    url: string
-    size: number
-  }
   className?: string
+  videoFile: types.IFileSource
 }
 
 const Video: React.FC<StreamingVideoProps | FileVideoProps> = (props) => {
+  // Streaming
   if (props.type === 'streaming' && props.platform && props.videoId) {
     return (
       <div className={classNames('aspect-video', props.className)}>
@@ -40,10 +37,12 @@ const Video: React.FC<StreamingVideoProps | FileVideoProps> = (props) => {
     )
   }
 
+  // File
   if (props.type === 'file') {
     return (
       <File
         propName="videoFile"
+        source={props.videoFile}
         allowedExtensions={['.mp4']}
         renderBlock={(file) => {
           return file ? (

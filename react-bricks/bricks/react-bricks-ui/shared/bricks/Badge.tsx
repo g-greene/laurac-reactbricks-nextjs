@@ -2,7 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 import { highlightTextColors } from '../../colors'
 
-import { Text, types } from 'react-bricks/frontend'
+import { Text, types } from 'react-bricks/rsc'
 import blockNames from '../../blockNames'
 import { badgeColorsEditProps } from '../../LayoutSideProps'
 
@@ -10,16 +10,20 @@ export interface BadgeProps {
   badgeColor: { color: string; className: string }
   textAlign: 'left' | 'center'
   className?: string
+  text: types.TextValue
 }
 
 const Badge: types.Brick<BadgeProps> = ({
   badgeColor,
   textAlign,
   className,
+  text,
 }) => {
   return (
     <div className="flex justify-center items-center">
       <Text
+        propName="text"
+        value={text}
         renderBlock={(props) => (
           <span
             className={classNames(
@@ -34,7 +38,6 @@ const Badge: types.Brick<BadgeProps> = ({
           </span>
         )}
         placeholder="Badge..."
-        propName="text"
       />
     </div>
   )

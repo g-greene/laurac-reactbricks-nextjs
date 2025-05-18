@@ -1,40 +1,29 @@
-import { useTheme } from 'next-themes'
-import type { AppProps } from 'next/app'
-import { useEffect, useState } from 'react'
-import { ReactBricks } from 'react-bricks/frontend'
+'use client'
 
-import config from '../react-bricks/config'
+import { useRouter } from 'next/navigation'
+import React from 'react'
+import { register } from 'react-bricks/rsc'
+import { ReactBricks } from 'react-bricks/rsc/client'
 
-const ReactBricksApp = ({ Component, pageProps }: AppProps) => {
-  // Color Mode Management
-  const savedColorMode =
-    typeof window === 'undefined' ? '' : localStorage.getItem('color-mode')
+import NextLink from '@/react-bricks/NextLink'
+import config from '@/react-bricks/config'
 
-  const [colorMode, setColorMode] = useState(savedColorMode || 'light')
-
-  const { setTheme } = useTheme()
-
-  const toggleColorMode = () => {
-    const newColorMode = colorMode === 'light' ? 'dark' : 'light'
-    setColorMode(newColorMode)
-    localStorage.setItem('color-mode', newColorMode)
-    setTheme(newColorMode)
-  }
+export default function ReactBricksApp({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const router = useRouter()
 
   const reactBricksConfig = {
     ...config,
-    isDarkColorMode: colorMode === 'dark',
-    toggleColorMode,
-    contentClassName: `antialiased font-content ${colorMode} ${
-      colorMode === 'dark' ? 'dark bg-gray-900' : 'light bg-white'
-    }`,
+    navigate: (path: string) => {
+      router.push(path)
+    },
+    renderLocalLink: NextLink,
   }
 
-  return (
-    <ReactBricks {...reactBricksConfig}>
-      <Component {...pageProps} />
-    </ReactBricks>
-  )
-}
+  register(reactBricksConfig)
 
-export default ReactBricksApp
+  return <ReactBricks {...reactBricksConfig}>{children as any}</ReactBricks>
+}

@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
 
 import {
   LayoutProps,
@@ -7,16 +6,15 @@ import {
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../../LayoutSideProps'
-import { avatars } from '../../shared/defaultImages'
 import blockNames from '../../blockNames'
 import Container from '../../shared/components/Container'
 import Section from '../../shared/components/Section'
+import { avatars } from '../../shared/defaultImages'
 
 export interface TestimonialProps extends LayoutProps {
-  authorName: string
-  authorJobTitle: string
   avatarImage: types.IImageSource
   logoImage: types.IImageSource
+  testimonials: types.RepeaterItems
 }
 
 const Testimonial3Cols: types.Brick<TestimonialProps> = ({
@@ -25,6 +23,7 @@ const Testimonial3Cols: types.Brick<TestimonialProps> = ({
   borderBottom,
   paddingTop,
   paddingBottom,
+  testimonials,
 }) => {
   return (
     <Section
@@ -37,7 +36,7 @@ const Testimonial3Cols: types.Brick<TestimonialProps> = ({
         paddingBottom={paddingBottom}
         className="grid grid-cols-1 lg:grid-cols-3 gap-12 xl:gap-10"
       >
-        <Repeater propName="testimonials" />
+        <Repeater propName="testimonials" items={testimonials} />
       </Container>
     </Section>
   )

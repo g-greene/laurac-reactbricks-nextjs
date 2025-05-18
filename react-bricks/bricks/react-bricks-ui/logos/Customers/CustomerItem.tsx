@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { Image, types } from 'react-bricks/frontend'
+import { Image, types } from 'react-bricks/rsc'
 import { logos } from '../../shared/defaultImages'
 import blockNames from '../../blockNames'
 
@@ -9,11 +9,12 @@ export interface CustomerProps {
   image: types.IImageSource
 }
 
-const Customer: types.Brick<CustomerProps> = ({ grayscale = true }) => {
+const Customer: types.Brick<CustomerProps> = ({ grayscale = true, image }) => {
   return (
     <div className="inline-flex items-center px-4 py-4 md:px-5">
       <Image
         propName="image"
+        source={image}
         alt="customer"
         imageClassName={classNames(
           'block object-contain w-[80px] h-[20px] md:w-[96px] md:h-[24px] lg:w-[116px] lg:h-[29px]',

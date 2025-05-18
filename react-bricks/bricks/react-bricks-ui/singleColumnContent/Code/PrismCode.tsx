@@ -1,5 +1,7 @@
-import * as React from 'react'
+'use client'
+
 import * as prism from 'prismjs'
+import * as React from 'react'
 import Styles from './Styles'
 
 interface PrismCodeProps {
@@ -32,6 +34,21 @@ const PrismCode: React.FC<PrismCodeProps> = ({
   return (
     <>
       <Styles />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+    .dark pre {
+      background-color: #1f2937;
+    }
+    .line-highlight {
+      background: rgba(255,255,255,0.4);
+    }
+    .line-highlight:before {
+      content: '';
+    }
+  `,
+        }}
+      ></style>
       <pre
         className={`rounded-lg ${!plugins ? '' : plugins.join(' ')}`}
         {...dataLineObj}

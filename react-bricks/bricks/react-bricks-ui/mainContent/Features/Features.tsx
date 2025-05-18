@@ -1,22 +1,22 @@
-import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
-
 import classNames from 'classnames'
-import blockNames from '../../blockNames'
-import Container from '../../shared/components/Container'
-import Section from '../../shared/components/Section'
+import { Repeater, types } from 'react-bricks/rsc'
+
 import {
-  sectionDefaults,
   LayoutProps,
   neutralBackgroundSideGroup,
   paddingBordersSideGroup,
+  sectionDefaults,
 } from '../../LayoutSideProps'
+import blockNames from '../../blockNames'
+import Container from '../../shared/components/Container'
+import Section from '../../shared/components/Section'
 import { icons } from '../../shared/defaultImages'
 
 export type ColsNumber = '2' | '3' | '4'
 
 interface FeaturesProps extends LayoutProps {
   colsNumber: ColsNumber
+  features: types.RepeaterItems
 }
 
 const Features: types.Brick<FeaturesProps> = ({
@@ -26,6 +26,7 @@ const Features: types.Brick<FeaturesProps> = ({
   paddingBottom,
   borderTop,
   borderBottom,
+  features,
 }) => {
   return (
     <Section
@@ -39,7 +40,11 @@ const Features: types.Brick<FeaturesProps> = ({
         paddingBottom={paddingBottom}
         className={classNames('flex flex-wrap justify-between')}
       >
-        <Repeater propName="features" itemProps={{ colsNumber: colsNumber }} />
+        <Repeater
+          propName="features"
+          items={features}
+          itemProps={{ colsNumber: colsNumber }}
+        />
       </Container>
     </Section>
   )

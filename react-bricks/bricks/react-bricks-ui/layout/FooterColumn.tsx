@@ -1,22 +1,19 @@
-import React from 'react'
-import {
-  Text,
-  RichText,
-  Image,
-  File,
-  Repeater,
-  types,
-} from 'react-bricks/frontend'
+import { Repeater, Text, types } from 'react-bricks/rsc'
+
 import blockNames from '../blockNames'
 import { textColors } from '../colors'
 
-interface FooterColumnProps {}
+interface FooterColumnProps {
+  title: types.TextValue
+  links: types.RepeaterItems
+}
 
-const FooterColumn: types.Brick<FooterColumnProps> = (props) => {
+const FooterColumn: types.Brick<FooterColumnProps> = ({ title, links }) => {
   return (
     <div className="w-1/2 sm:w-auto sm:mr-8 mb-8">
       <Text
         propName="title"
+        value={title}
         placeholder="Title..."
         renderBlock={({ children }) => (
           <div
@@ -26,7 +23,7 @@ const FooterColumn: types.Brick<FooterColumnProps> = (props) => {
           </div>
         )}
       />
-      <Repeater propName="links" />
+      <Repeater propName="links" items={links} />
     </div>
   )
 }
@@ -47,6 +44,7 @@ FooterColumn.schema = {
   // Defaults when a new brick is added
   getDefaultProps: () => ({
     title: 'Features',
+    links: [],
   }),
 
   // Sidebar Edit controls for props

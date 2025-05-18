@@ -1,5 +1,5 @@
-import React from 'react'
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
 import {
   containerWidthSideGroup,
@@ -16,6 +16,7 @@ interface SingleColumnVideoProps extends LayoutProps {
   videoType: 'file' | 'streaming'
   platform: 'youtube' | 'vimeo'
   videoId: string
+  videoFile: types.IFileSource
 }
 
 const SingleColumnVideo: types.Brick<SingleColumnVideoProps> = ({
@@ -28,6 +29,7 @@ const SingleColumnVideo: types.Brick<SingleColumnVideoProps> = ({
   videoType,
   platform,
   videoId,
+  videoFile,
 }) => {
   return (
     <Section
@@ -40,7 +42,11 @@ const SingleColumnVideo: types.Brick<SingleColumnVideoProps> = ({
         paddingTop={paddingTop}
         paddingBottom={paddingBottom}
       >
-        <Video type={videoType} platform={platform} videoId={videoId} />
+        {videoType === 'streaming' ? (
+          <Video type="streaming" platform={platform} videoId={videoId} />
+        ) : (
+          <Video type="file" videoFile={videoFile} />
+        )}
       </Container>
     </Section>
   )
@@ -90,7 +96,7 @@ SingleColumnVideo.schema = {
     {
       groupName: 'Video source',
       defaultOpen: true,
-      show: ({ videoType }) => videoType === 'streaming',
+      //show: ({ videoType }) => videoType === 'streaming',
       props: [
         {
           name: 'platform',

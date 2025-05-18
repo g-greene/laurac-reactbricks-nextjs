@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { Repeater, RichText, types } from 'react-bricks/frontend'
+import { Repeater, RichText, types } from 'react-bricks/rsc'
 import {
   backgroundWithImageBgSideGroup,
   highlightTextEditProps,
@@ -24,23 +24,25 @@ import { ButtonProps } from '../../shared/bricks/Button'
 export interface HeroUnitProps extends LayoutProps {
   textGradient: keyof typeof gradients
   highlightTextColor: { color: string; className: string }
-  title:
-    | [{ type: string; children: { text: string; highlight?: boolean }[] }]
-    | string
-  text: string
-  buttons: ButtonProps[]
+  title: types.TextValue
+  text: types.TextValue
+  buttons: types.RepeaterItems
+  badge: types.RepeaterItems
 }
 
 const HeroUnit2: types.Brick<HeroUnitProps> = ({
   backgroundColor,
   backgroundImage,
-  backgroundImageDark,
   borderTop,
   borderBottom,
   paddingTop,
   paddingBottom,
   textGradient,
   highlightTextColor,
+  title,
+  text,
+  buttons,
+  badge,
 }: HeroUnitProps) => {
   const titleColor = textColors.GRAY_800
   const textColor = textColors.GRAY_700
@@ -53,7 +55,6 @@ const HeroUnit2: types.Brick<HeroUnitProps> = ({
     <Section
       backgroundColor={backgroundColor}
       backgroundImage={backgroundImage}
-      backgroundImageDark={backgroundImageDark}
       borderTop={borderTop}
       borderBottom={borderBottom}
     >
@@ -63,24 +64,22 @@ const HeroUnit2: types.Brick<HeroUnitProps> = ({
             <div className="lg:flex">
               <Repeater
                 propName="badge"
+                items={badge}
                 itemProps={{ textAlign: 'left' }}
                 renderWrapper={(items) => <div className="mb-4">{items}</div>}
               />
             </div>
 
-            <div
-              className={classNames(
-                titleColor,
-                gradients[textGradient]?.className
-              )}
-              style={titleStyle}
-            >
+            <div className={titleColor} style={titleStyle}>
               <RichText
+                propName="title"
+                value={title}
                 renderBlock={(props) => (
                   <h1
                     className={classNames(
-                      'text-[28px] leading-8 sm:text-[40px] sm:leading-tight lg:text-[44px] lg:leading-snug text-center lg:text-left font-extrabold mb-4 bg-clip-text bg-gradient-to-r   ',
-                      titleColor
+                      'text-[28px] leading-8 sm:text-[40px] sm:leading-tight lg:text-[44px] lg:leading-snug text-center lg:text-left font-extrabold mb-4 bg-clip-text bg-linear-to-r   ',
+                      titleColor,
+                      gradients[textGradient]?.className
                     )}
                     {...props.attributes}
                   >
@@ -89,7 +88,6 @@ const HeroUnit2: types.Brick<HeroUnitProps> = ({
                 )}
                 allowedFeatures={[types.RichTextFeatures.Highlight]}
                 placeholder="Type a title..."
-                propName="title"
                 renderHighlight={({ children }) => (
                   <span className={highlightTextColor.className}>
                     {children}
@@ -100,6 +98,8 @@ const HeroUnit2: types.Brick<HeroUnitProps> = ({
           </div>
           <div className="flex-1">
             <RichText
+              propName="text"
+              value={text}
               renderBlock={(props) => (
                 <p
                   className={classNames(
@@ -112,11 +112,11 @@ const HeroUnit2: types.Brick<HeroUnitProps> = ({
                 </p>
               )}
               placeholder="Type a text..."
-              propName="text"
               allowedFeatures={[types.RichTextFeatures.Bold]}
             />
             <Repeater
               propName="buttons"
+              items={buttons}
               renderWrapper={(items) => (
                 <div className="flex flex-row space-x-5 items-center justify-center lg:justify-start mt-6">
                   {items}

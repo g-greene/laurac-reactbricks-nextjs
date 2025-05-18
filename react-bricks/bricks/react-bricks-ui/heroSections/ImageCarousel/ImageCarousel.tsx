@@ -1,116 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
-import Slider from 'react-slick'
+import { types, wrapClientComponent } from 'react-bricks/rsc'
+import { RegisterComponent } from 'react-bricks/rsc/client'
 
-import Container from '../../shared/components/Container'
-import Section from '../../shared/components/Section'
-import blockNames from '../../blockNames'
-import CarouselStyles from './CarouselStyles'
 import {
-  containerWidthSideGroupWithFull,
-  LayoutProps,
+  containerWidthSideGroup,
   neutralBackgroundSideGroup,
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../../LayoutSideProps'
+import blockNames from '../../blockNames'
 import { photos } from '../../shared/defaultImages'
+import ImageCarouselClient, { ImageCarouselProps } from './ImageCarouselClient'
 
-// @ts-ignore
-const SliderComponent = !!Slider.default ? Slider.default : Slider
-
-interface ImageCarouselProps extends LayoutProps {
-  slidesToShow: string
-  slidesToScroll: string
-  adaptAspectRatio: boolean
-  autoplay: boolean
-  speed: string
-  className: string
-  gap: string
-  images: {
-    image: types.IImageSource
-  }[]
-}
-
-const CarouselBrick: types.Brick<ImageCarouselProps> = ({
-  backgroundColor,
-  borderTop,
-  borderBottom,
-  paddingTop,
-  paddingBottom,
-  width,
-  slidesToShow,
-  slidesToScroll,
-  adaptAspectRatio,
-  autoplay,
-  speed,
-  gap,
-}) => {
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    draggable: true,
-    autoplay: !!autoplay,
-    autoplaySpeed: speed ? parseInt(speed) * 1000 : 3000,
-    touchThreshold: 1000,
-    slidesToShow: slidesToShow ? parseInt(slidesToShow) : 1,
-    slidesToScroll: slidesToScroll ? parseInt(slidesToScroll) : 1,
-    accessibility: true,
-  }
-
-  const repeaterElement = Repeater({
-    propName: 'images',
-    itemProps: {
-      adaptAspectRatio,
-      slidesToShow: slidesToShow ? parseInt(slidesToShow) : 1,
-    },
-  })
-  const [hasMount, setHasMount] = useState(false)
-  useEffect(() => {
-    setHasMount(true)
-  }, [])
-
-  if (!hasMount) {
-    // Client only
-    return null
-  }
-
-  return (
-    <Section
-      backgroundColor={backgroundColor}
-      borderTop={borderTop}
-      borderBottom={borderBottom}
-    >
-      <Container
-        size={width}
-        paddingTop={paddingTop}
-        paddingBottom={paddingBottom}
-      >
-        <CarouselStyles />
-        <style>{`
-       
-        .slick-track {
-          display:flex;
-          gap:${gap};
-        }
-    `}</style>
-
-        <SliderComponent {...settings}>
-          {/*@ts-ignore*/}
-          {repeaterElement?.props?.children?.map((child, index) => {
-            return (
-              <div key={index} className="p-0 overflow-hidden">
-                {child}
-              </div>
-            )
-          })}
-        </SliderComponent>
-      </Container>
-    </Section>
-  )
-}
-
-CarouselBrick.schema = {
+const schema: types.IBlockType<ImageCarouselProps> = {
   name: blockNames.ImageCarousel,
   label: 'Image Carousel',
   category: 'hero sections',
@@ -160,6 +61,7 @@ CarouselBrick.schema = {
             ],
           },
           validate: (slidesToScroll, props) =>
+            !props?.slidesToShow ||
             slidesToScroll <= props?.slidesToShow ||
             'You cannot scroll more slides than you see',
         },
@@ -210,7 +112,7 @@ CarouselBrick.schema = {
     },
     neutralBackgroundSideGroup,
     paddingBordersSideGroup,
-    containerWidthSideGroupWithFull,
+    containerWidthSideGroup,
   ],
   getDefaultProps: () => ({
     ...sectionDefaults,
@@ -262,4 +164,8 @@ CarouselBrick.schema = {
   ],
 }
 
-export default CarouselBrick
+export default wrapClientComponent({
+  ClientComponent: ImageCarouselClient,
+  RegisterComponent,
+  schema,
+})

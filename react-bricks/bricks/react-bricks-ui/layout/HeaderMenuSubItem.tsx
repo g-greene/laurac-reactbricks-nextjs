@@ -1,16 +1,19 @@
-import { Menu } from '@headlessui/react'
 import blockNames from '../blockNames'
 import React from 'react'
-import { Text, types, Link } from 'react-bricks/frontend'
+import { Text, types, Link } from 'react-bricks/rsc'
 import classNames from 'classnames'
 import { FiChevronRight } from 'react-icons/fi'
 
 interface HeaderMenuSubItemProps {
   linkPath: string
+  linkText: types.TextValue
+  linkDescription: types.TextValue
 }
 
 const HeaderMenuSubItem: types.Brick<HeaderMenuSubItemProps> = ({
   linkPath,
+  linkText,
+  linkDescription,
 }) => {
   return (
     <Link href={linkPath} className="group p-0 mb-3 lg:p-3 flex items-start">
@@ -20,6 +23,7 @@ const HeaderMenuSubItem: types.Brick<HeaderMenuSubItemProps> = ({
       <div className="flex-1 overflow-hidden lg:overflow-auto">
         <Text
           propName="linkText"
+          value={linkText}
           placeholder="Type a text..."
           renderBlock={({ children }) => (
             <div
@@ -34,6 +38,7 @@ const HeaderMenuSubItem: types.Brick<HeaderMenuSubItemProps> = ({
         <div className="hidden lg:block">
           <Text
             propName="linkDescription"
+            value={linkDescription}
             placeholder="Type a text..."
             renderBlock={({ children }) => (
               <div

@@ -1,36 +1,43 @@
 import classNames from 'classnames'
 import React from 'react'
-import { Plain, types } from 'react-bricks/frontend'
-import { RichText, Text, Image, Link } from 'react-bricks/frontend'
+import { RichText, Text, Image, Link, Plain, types } from 'react-bricks/rsc'
 import blockNames from '../../blockNames'
 import { textColors } from '../../colors'
 import { icons } from '../../shared/defaultImages'
+import { BsTicketDetailedFill } from 'react-icons/bs'
 
 interface CardProps {
   withIcon: boolean
   withTitle: boolean
   withLink: boolean
-  linkText: string
   linkPath: string
+  icon: types.IImageSource
+  title: types.TextValue
+  description: types.TextValue
+  linkText: types.TextValue
 }
 
 const Card: types.Brick<CardProps> = ({
   withIcon,
   withTitle,
   withLink,
-  linkText,
   linkPath,
+  icon,
+  title,
+  description,
+  linkText,
 }) => {
   const linkTextPlain =
     typeof linkText === 'string' ? linkText : Plain.serialize(linkText)
 
   return (
     <div
-      className={`p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded`}
+      className={`p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded-sm`}
     >
       {withIcon && (
         <Image
           propName="icon"
+          source={icon}
           alt="logo"
           imageClassName={`text-left object-contain w-10 h-10 mr-5`}
         />
@@ -39,6 +46,8 @@ const Card: types.Brick<CardProps> = ({
       <div className="w-full">
         {withTitle && (
           <Text
+            propName="title"
+            value={title}
             renderBlock={(props) => (
               <div
                 className={classNames('font-bold mb-1', textColors.GRAY_800)}
@@ -47,10 +56,11 @@ const Card: types.Brick<CardProps> = ({
               </div>
             )}
             placeholder="Title..."
-            propName="title"
           />
         )}
         <RichText
+          propName="description"
+          value={description}
           renderBlock={(props) => (
             <div
               className={classNames(
@@ -62,7 +72,6 @@ const Card: types.Brick<CardProps> = ({
             </div>
           )}
           placeholder="Description..."
-          propName="description"
         />
         {withLink && (
           <div className="mt-2">
@@ -75,9 +84,10 @@ const Card: types.Brick<CardProps> = ({
             >
               <div>
                 <Text
+                  propName="linkText"
+                  value={linkText}
                   renderBlock={(props) => <p>{props.children}</p>}
                   placeholder="Link..."
-                  propName="linkText"
                 />
               </div>
               <svg
@@ -136,7 +146,7 @@ Card.schema = {
       name: 'linkPath',
       label: 'Link to',
       type: types.SideEditPropType.Text,
-      show: ({ withLink }) => !!withLink,
+      show: ({ withLink }, page, user) => !!withLink,
     },
   ],
 }

@@ -1,12 +1,17 @@
 import * as React from 'react'
-import { Image, types } from 'react-bricks/frontend'
+import { Image, types } from 'react-bricks/rsc'
 import blockNames from '../../blockNames'
 
-const TextMediaLogo: types.Brick = () => {
+interface TextMediaLogoProps {
+  image: types.IImageSource
+}
+
+const TextMediaLogo: types.Brick<TextMediaLogoProps> = ({ image }) => {
   return (
     <div>
       <Image
         propName="image"
+        source={image}
         alt="logo"
         imageClassName="w-20 h-20 lg:w-24 lg:h-24"
         renderWrapper={({ children }) => (

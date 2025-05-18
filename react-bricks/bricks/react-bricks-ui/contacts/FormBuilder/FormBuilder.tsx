@@ -1,74 +1,51 @@
+import { Repeater, types } from 'react-bricks/rsc'
 import classNames from 'classnames'
-import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
-import { useForm } from 'react-hook-form'
 import blockNames from '../../blockNames'
 import { buttonColors } from '../../colors'
-import {
-  backgroundSideGroup,
-  LayoutProps,
-  paddingBordersSideGroup,
-  sectionDefaults,
-} from '../../LayoutSideProps'
-import Container from '../../shared/components/Container'
-import Section from '../../shared/components/Section'
+import FormBuilderClient from './FormBuilderClient'
+import FormBuilderProvider from './FormBuilderProvider'
 
-export interface FormBuilderProps extends LayoutProps {
+export interface FormBuilderProps {
+  successMessage: string
+  formspreeFormId: string
   buttonPosition: string
+  formElements: types.RepeaterItems
+  formButtons: types.RepeaterItems
 }
 
 const FormBuilder: types.Brick<FormBuilderProps> = ({
-  backgroundColor,
-  borderTop,
-  borderBottom,
-  paddingTop,
-  paddingBottom,
+  successMessage,
+  formspreeFormId,
   buttonPosition,
+  formElements,
+  formButtons,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
-
-  const onSubmit = () => {}
-
   return (
     <div>
-      <Section
-        backgroundColor={backgroundColor}
-        borderTop={borderTop}
-        borderBottom={borderBottom}
-      >
-        <Container
-          size="full"
-          paddingTop={paddingTop}
-          paddingBottom={paddingBottom}
+      <FormBuilderProvider>
+        <FormBuilderClient
+          formspreeFormId={formspreeFormId}
+          successMessage={successMessage}
         >
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-2 gap-4 py-6"
-          >
-            <Repeater
-              propName="form-elements"
-              itemProps={{ register, errors }}
-            />
-            <Repeater
-              propName="form-buttons"
-              renderWrapper={(items) => (
-                <div
-                  className={classNames(
-                    'w-full flex space-x-6 col-span-2',
-                    buttonPosition
-                  )}
-                >
-                  {items}
-                </div>
-              )}
-            />
-          </form>
-        </Container>
-      </Section>
+          <Repeater propName="formElements" items={formElements} />
+
+          <Repeater
+            propName="formButtons"
+            items={formButtons}
+            // itemProps={{ disabled: isSubmitting }}
+            renderWrapper={(items) => (
+              <div
+                className={classNames(
+                  'w-full flex space-x-6 col-span-2',
+                  buttonPosition
+                )}
+              >
+                {items}
+              </div>
+            )}
+          />
+        </FormBuilderClient>
+      </FormBuilderProvider>
     </div>
   )
 }
@@ -77,11 +54,12 @@ FormBuilder.schema = {
   name: blockNames.FormBuilder,
   label: 'Form',
   category: 'contact',
+  hideFromAddMenu: true,
   previewImageUrl: `/bricks-preview-images/${blockNames.FormBuilder}.png`,
   repeaterItems: [
     {
-      name: 'form-elements',
-      positionLabel: 'Form elements',
+      name: 'formElements',
+      label: 'Form elements',
       items: [
         { type: blockNames.FormInput },
         { type: blockNames.FormTextArea },
@@ -91,15 +69,33 @@ FormBuilder.schema = {
       ],
     },
     {
-      name: 'form-buttons',
+      name: 'formButtons',
       itemLabel: 'Button',
       itemType: blockNames.Button,
-      min: 1,
+      min: 0,
       max: 2,
     },
   ],
 
   sideEditProps: [
+    {
+      groupName: 'Formspree',
+      defaultOpen: true,
+      props: [
+        {
+          name: 'formspreeFormId',
+          label: 'Formspree Form ID',
+          type: types.SideEditPropType.Text,
+          helperText:
+            'Copy your Fromspree Form ID from the Formspree dashboard.',
+        },
+        {
+          name: 'successMessage',
+          label: 'Success Message',
+          type: types.SideEditPropType.Textarea,
+        },
+      ],
+    },
     {
       groupName: 'Buttons',
       defaultOpen: true,
@@ -119,14 +115,11 @@ FormBuilder.schema = {
         },
       ],
     },
-    backgroundSideGroup,
-    paddingBordersSideGroup,
   ],
 
   getDefaultProps: () => ({
-    ...sectionDefaults,
     buttonPosition: 'justify-center',
-    'form-elements': [
+    formElements: [
       {
         type: blockNames.FormInput,
         props: {
@@ -191,7 +184,7 @@ FormBuilder.schema = {
         },
       },
     ],
-    'form-buttons': [
+    formButtons: [
       {
         type: 'button',
         buttonType: 'submit',

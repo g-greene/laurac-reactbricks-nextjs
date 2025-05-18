@@ -1,4 +1,4 @@
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
 import {
   highlightTextColors,
   bgColors,
@@ -6,25 +6,25 @@ import {
   buttonColors,
   gradients,
   pricingColors,
+  PricingColorValue,
 } from './colors'
 import { Padding, Size } from './shared/components/Container'
 import { Border } from './shared/components/Section'
 
+type RBUIColor = types.IColor & { className: string }
 export interface LayoutProps {
-  backgroundColor?: { color: string; className: string }
-  backgroundImage?: types.IImageSource
-  backgroundImageDark?: types.IImageSource
+  backgroundColor: RBUIColor
+  backgroundImage: types.IImageSource
   borderTop: Border
   borderBottom: Border
-  width?: Size
-  maxWidth?: number
+  width: Size
   paddingTop: Padding
-  paddingLeft: Padding
   paddingBottom: Padding
-  paddingRight: Padding
 }
 
-export const backgroundColorsEditProps: types.ISideEditProp = {
+export const backgroundColorsEditProps: types.ISideEditProp<{
+  backgroundColor: RBUIColor
+}> = {
   name: 'backgroundColor',
   label: 'Background',
   type: types.SideEditPropType.Select,
@@ -54,17 +54,26 @@ export const backgroundColorsEditProps: types.ISideEditProp = {
   },
 }
 
-export const neutralBackgroundColorsEditProps: types.ISideEditProp = {
+export const neutralBackgroundColorsEditProps: types.ISideEditProp<{
+  backgroundColor: RBUIColor
+}> = {
   name: 'backgroundColor',
   label: 'Background',
   type: types.SideEditPropType.Select,
   selectOptions: {
     display: types.OptionsDisplay.Color,
-    options: [bgColors.WHITE, bgColors.LIGHT_GRAY, bgColors.GRAY, bgColors.DARK_GRAY],
+    options: [
+      bgColors.WHITE,
+      bgColors.LIGHT_GRAY,
+      bgColors.GRAY,
+      bgColors.DARK_GRAY,
+    ],
   },
 }
 
-export const backgroundImageEditProps: types.ISideEditProp[] = [
+export const backgroundImageEditProps: types.ISideEditProp<{
+  backgroundImage: types.IImageSource
+}>[] = [
   {
     name: 'backgroundImage',
     label: 'Background Image',
@@ -73,37 +82,15 @@ export const backgroundImageEditProps: types.ISideEditProp[] = [
       aspectRatio: 2,
     },
   },
-  {
-    name: 'backgroundImageDark',
-    label: 'Background Image Dark',
-    type: types.SideEditPropType.Image,
-    imageOptions: {
-      aspectRatio: 2,
-    },
-  },
 ]
 
-export const sectionPaddingsEditProps: types.ISideEditProp[] = [
+export const sectionPaddingsEditProps: types.ISideEditProp<{
+  paddingTop: Padding
+  paddingBottom: Padding
+}>[] = [
   {
     name: 'paddingTop',
     label: 'Padding Top',
-    type: types.SideEditPropType.Select,
-    selectOptions: {
-      display: types.OptionsDisplay.Select,
-      options: [
-        { value: '20', label: '20' },
-        { value: '16', label: '16' },
-        { value: '12', label: '12' },
-        { value: '10', label: '10' },
-        { value: '8', label: '8' },
-        { value: '6', label: '6' },
-        { value: '0', label: 'None' },
-      ],
-    },
-  },
-  {
-    name: 'paddingRight',
-    label: 'Padding Right',
     type: types.SideEditPropType.Select,
     selectOptions: {
       display: types.OptionsDisplay.Select,
@@ -135,26 +122,11 @@ export const sectionPaddingsEditProps: types.ISideEditProp[] = [
       ],
     },
   },
-  {
-    name: 'paddingLeft',
-    label: 'Padding Left',
-    type: types.SideEditPropType.Select,
-    selectOptions: {
-      display: types.OptionsDisplay.Select,
-      options: [
-        { value: '20', label: '20' },
-        { value: '16', label: '16' },
-        { value: '12', label: '12' },
-        { value: '10', label: '10' },
-        { value: '8', label: '8' },
-        { value: '6', label: '6' },
-        { value: '0', label: 'None' },
-      ],
-    },
-  },
 ]
 
-export const borderTopEditProp: types.ISideEditProp = {
+export const borderTopEditProp: types.ISideEditProp<{
+  borderTop: Border
+}> = {
   name: 'borderTop',
   label: 'Border Top',
   type: types.SideEditPropType.Select,
@@ -168,7 +140,9 @@ export const borderTopEditProp: types.ISideEditProp = {
   },
 }
 
-export const borderBottomEditProp: types.ISideEditProp = {
+export const borderBottomEditProp: types.ISideEditProp<{
+  borderBottom: Border
+}> = {
   name: 'borderBottom',
   label: 'Border Bottom',
   type: types.SideEditPropType.Select,
@@ -182,13 +156,13 @@ export const borderBottomEditProp: types.ISideEditProp = {
   },
 }
 
-export const sectionBordersEditProps: types.ISideEditProp[] = [
-  borderTopEditProp,
-  borderBottomEditProp,
-]
+export const sectionBordersEditProps: types.ISideEditProp<{
+  borderTop: Border
+  borderBottom: Border
+}>[] = [borderTopEditProp, borderBottomEditProp]
 
 interface SectionDefaults {
-  backgroundColor: { color: string; className: string }
+  backgroundColor: RBUIColor
   paddingTop: Padding
   paddingBottom: Padding
   borderTop: Border
@@ -203,7 +177,9 @@ export const sectionDefaults: SectionDefaults = {
   borderBottom: 'none',
 }
 
-export const containerSizeEditProps: types.ISideEditProp = {
+export const containerSizeEditProps: types.ISideEditProp<{
+  width: 'medium' | 'small' | 'full'
+}> = {
   name: 'width',
   label: 'Width',
   type: types.SideEditPropType.Select,
@@ -217,21 +193,9 @@ export const containerSizeEditProps: types.ISideEditProp = {
   },
 }
 
-export const containerSizeEditPropsWithFull: types.ISideEditProp = {
-  name: 'width',
-  label: 'Width',
-  type: types.SideEditPropType.Select,
-  selectOptions: {
-    display: types.OptionsDisplay.Select,
-    options: [
-      { value: 'medium', label: 'Medium' },
-      { value: 'small', label: 'Small' },
-      { value: 'full', label: 'Full-width' },
-    ],
-  },
-}
-
-export const badgeColorsEditProps = {
+export const badgeColorsEditProps: types.ISideEditProp<{
+  badgeColor: RBUIColor
+}> = {
   name: 'badgeColor',
   label: 'Badge Color',
   type: types.SideEditPropType.Select,
@@ -261,7 +225,9 @@ export const badgeColorsEditProps = {
   },
 }
 
-export const bulletColorsEditProps = {
+export const bulletColorsEditProps: types.ISideEditProp<{
+  bulletColor: RBUIColor
+}> = {
   name: 'bulletColor',
   label: 'Bullet Color',
   type: types.SideEditPropType.Select,
@@ -291,7 +257,13 @@ export const bulletColorsEditProps = {
   },
 }
 
-export const buttonColorsEditProps = {
+export const buttonColorsEditProps: types.ISideEditProp<{
+  buttonColor: {
+    color: string
+    classNameSolid: string
+    classNameOutline: string
+  }
+}> = {
   name: 'buttonColor',
   label: 'Button Color',
   type: types.SideEditPropType.Select,
@@ -321,7 +293,9 @@ export const buttonColorsEditProps = {
   },
 }
 
-export const highlightTextEditProps = {
+export const highlightTextEditProps: types.ISideEditProp<{
+  highlightTextColor: RBUIColor
+}> = {
   name: 'highlightTextColor',
   label: 'Highlight Color',
   type: types.SideEditPropType.Select,
@@ -351,7 +325,9 @@ export const highlightTextEditProps = {
   },
 }
 
-export const textGradientEditProps = {
+export const textGradientEditProps: types.ISideEditProp<{
+  textGradient: keyof typeof gradients
+}> = {
   name: 'textGradient',
   label: 'Text gradient',
   type: types.SideEditPropType.Select,
@@ -376,7 +352,9 @@ export const textGradientEditProps = {
   },
 }
 
-export const pricingColorsEditProps: types.ISideEditProp = {
+export const pricingColorsEditProps: types.ISideEditProp<{
+  pricingColor: PricingColorValue
+}> = {
   name: 'pricingColor',
   label: 'Color',
   type: types.SideEditPropType.Select,
@@ -406,35 +384,43 @@ export const pricingColorsEditProps: types.ISideEditProp = {
   },
 }
 
-export const neutralBackgroundSideGroup: types.ISideGroup = {
+export const neutralBackgroundSideGroup: types.ISideGroup<{
+  backgroundColor: RBUIColor
+}> = {
   groupName: 'Background',
   props: [neutralBackgroundColorsEditProps],
 }
 
-export const backgroundSideGroup: types.ISideGroup = {
+export const backgroundSideGroup: types.ISideGroup<{
+  backgroundColor: RBUIColor
+}> = {
   groupName: 'Background',
   props: [backgroundColorsEditProps],
 }
 
-export const backgroundWithImageBgSideGroup: types.ISideGroup = {
+export const backgroundWithImageBgSideGroup: types.ISideGroup<{
+  backgroundColor: RBUIColor
+  backgroundImage: types.IImageSource
+}> = {
   groupName: 'Background',
   props: [backgroundColorsEditProps, ...backgroundImageEditProps],
 }
 
-export const paddingBordersSideGroup: types.ISideGroup = {
+export const paddingBordersSideGroup: types.ISideGroup<{
+  paddingTop: Padding
+  paddingBottom: Padding
+  borderTop: Border
+  borderBottom: Border
+}> = {
   groupName: 'Padding & Borders',
   defaultOpen: false,
   props: [...sectionPaddingsEditProps, ...sectionBordersEditProps],
 }
 
-export const containerWidthSideGroup: types.ISideGroup = {
+export const containerWidthSideGroup: types.ISideGroup<{
+  width: Size
+}> = {
   groupName: 'Container width',
   defaultOpen: false,
   props: [containerSizeEditProps],
-}
-
-export const containerWidthSideGroupWithFull: types.ISideGroup = {
-  groupName: 'Container width',
-  defaultOpen: false,
-  props: [containerSizeEditPropsWithFull],
 }

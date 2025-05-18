@@ -1,3 +1,6 @@
+'use client'
+
+import type { JSX } from 'react'
 import * as React from 'react'
 
 type Props = JSX.LibraryManagedAttributes<
@@ -505,7 +508,6 @@ export default class Editor extends React.Component<Props, State> {
 
       /* eslint-enable no-unused-vars */
       preClassName,
-
     } = this.props
 
     const contentStyle = {
@@ -519,7 +521,7 @@ export default class Editor extends React.Component<Props, State> {
     return (
       <div style={{ ...styles.container, ...style }}>
         <textarea
-          ref={(c) => (this._input = c)}
+          ref={(c) => (this._input = c) as any}
           style={{ ...styles.editor, ...styles.textarea, ...contentStyle }}
           className={
             className + (textareaClassName ? ` ${textareaClassName}` : '')

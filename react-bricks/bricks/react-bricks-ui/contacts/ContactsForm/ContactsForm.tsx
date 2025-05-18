@@ -1,9 +1,9 @@
 import classNames from 'classnames'
-import React from 'react'
-import { Repeater, types, Text, Link, Plain } from 'react-bricks/frontend'
+import { Link, Plain, Repeater, Text, types } from 'react-bricks/rsc'
 import { FcDepartment, FcPhone, FcVoicePresentation } from 'react-icons/fc'
+
 import blockNames from '../../blockNames'
-import { buttonColors, textColors } from '../../colors'
+import { textColors } from '../../colors'
 import {
   backgroundSideGroup,
   LayoutProps,
@@ -15,8 +15,12 @@ import Section from '../../shared/components/Section'
 import TitleSubtitle from '../../shared/components/TitleSubtitle'
 
 export interface ContactsFormProps extends LayoutProps {
-  phoneNumber: string
-  email: string
+  phoneNumber: types.TextValue
+  email: types.TextValue
+  address: types.TextValue
+  form: types.RepeaterItems
+  title: types.TextValue
+  subtitle: types.TextValue
 }
 
 const ContactsForm: types.Brick<ContactsFormProps> = ({
@@ -25,8 +29,12 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
   borderBottom,
   paddingTop,
   paddingBottom,
+  address,
   phoneNumber,
   email,
+  form,
+  title,
+  subtitle,
 }) => {
   return (
     <Section
@@ -37,7 +45,7 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
       <Container paddingTop={paddingTop} paddingBottom={paddingBottom}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="pb-12 lg:pb-20 sm:text-left lg:pr-8 pr-5">
-            <TitleSubtitle />
+            <TitleSubtitle title={title} subtitle={subtitle} />
             <ul
               className={classNames(
                 'mt-10 space-y-4 text-base leading-7 list-none',
@@ -49,6 +57,7 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
                 <div>
                   <Text
                     propName="address"
+                    value={address}
                     placeholder="address..."
                     multiline={true}
                     renderBlock={(props) => (
@@ -74,6 +83,7 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
                   <FcPhone size={'28px'} />
                   <Text
                     propName="phoneNumber"
+                    value={phoneNumber}
                     placeholder="Phone number"
                     renderBlock={({ children }) => <span>{children}</span>}
                   />
@@ -89,6 +99,7 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
                   <FcVoicePresentation size={'28px'} />
                   <Text
                     propName="email"
+                    value={email}
                     placeholder="Email"
                     renderBlock={({ children }) => <span>{children}</span>}
                   />
@@ -97,7 +108,7 @@ const ContactsForm: types.Brick<ContactsFormProps> = ({
             </ul>
           </div>
           <div className="sm:-mt-7">
-            <Repeater propName="form" />
+            <Repeater propName="form" items={form} />
           </div>
         </div>
       </Container>
@@ -118,101 +129,6 @@ ContactsForm.schema = {
     title: 'Contact us',
     subtitle:
       'Do you have a project in mind? We are happy to talk with you to understand your needs, prepare a quote for you and make it happen!',
-    form: [
-      {
-        buttonPosition: 'justify-end',
-        paddingTop: '0',
-        paddingBottom: '0',
-        width: 'full',
-        'form-elements': [
-          {
-            type: blockNames.FormInput,
-            props: {
-              fieldName: 'firstname',
-              isRequired: true,
-              inputType: 'text',
-              columns: '1',
-              label: 'First name',
-              requiredError: 'Please, fill in your first name',
-              pattern: '',
-              patternError: '',
-            },
-          },
-          {
-            type: blockNames.FormInput,
-            props: {
-              fieldName: 'lastname',
-              isRequired: true,
-              inputType: 'text',
-              columns: '1',
-              label: 'Last name',
-              requiredError: 'Please, fill in your last name',
-              pattern: '',
-              patternError: '',
-            },
-          },
-          {
-            type: blockNames.FormInput,
-            props: {
-              fieldName: 'email',
-              isRequired: true,
-              inputType: 'email',
-              columns: '2',
-              label: 'Email',
-              requiredError: 'Please, fill in your email address',
-              pattern: '',
-              patternError: '',
-            },
-          },
-          {
-            type: blockNames.FormInput,
-            props: {
-              fieldName: 'company',
-              isRequired: false,
-              inputType: 'text',
-              columns: '2',
-              label: 'Company',
-              requiredError: '',
-              pattern: '',
-              patternError: '',
-            },
-          },
-          {
-            type: blockNames.FormTextArea,
-            props: {
-              fieldName: 'message',
-              isRequired: false,
-              columns: '2',
-              label: 'Message',
-              requiredError: '',
-              pattern: '',
-              patternError: '',
-            },
-          },
-          {
-            type: blockNames.FormCheckbox,
-            props: {
-              fieldName: 'privacy',
-              isRequired: true,
-              columns: '2',
-              label: 'I accept the processing of my data',
-              requiredError: 'Please, accept our privacy terms',
-              pattern: '',
-              patternError: '',
-            },
-          },
-        ],
-        'form-buttons': [
-          {
-            type: 'button',
-            buttonType: 'submit',
-            buttonColor: buttonColors.SKY.value,
-            text: 'Send',
-            variant: 'solid',
-          },
-        ],
-      },
-    ],
   }),
   sideEditProps: [backgroundSideGroup, paddingBordersSideGroup],
   repeaterItems: [
@@ -220,7 +136,7 @@ ContactsForm.schema = {
       name: 'form',
       itemType: blockNames.FormBuilder,
       itemLabel: 'form',
-      min: 1,
+      min: 0,
       max: 1,
     },
   ],

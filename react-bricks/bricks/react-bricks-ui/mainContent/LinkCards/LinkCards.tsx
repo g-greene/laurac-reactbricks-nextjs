@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
 
 import blockNames from '../../blockNames'
 import Container from '../../shared/components/Container'
@@ -18,6 +18,9 @@ import TitleSubtitle from '../../shared/components/TitleSubtitle'
 interface LinkCardsProps extends LayoutProps {
   withTitle?: boolean
   bigCenteredTitle?: boolean
+  title: types.TextValue
+  subtitle: types.TextValue
+  cards: types.RepeaterItems
 }
 
 const LinkCards: types.Brick<LinkCardsProps> = ({
@@ -29,6 +32,9 @@ const LinkCards: types.Brick<LinkCardsProps> = ({
   width,
   withTitle,
   bigCenteredTitle,
+  title,
+  subtitle,
+  cards,
 }) => {
   return (
     <Section
@@ -43,12 +49,14 @@ const LinkCards: types.Brick<LinkCardsProps> = ({
       >
         {withTitle && (
           <TitleSubtitle
+            title={title}
+            subtitle={subtitle}
             className={classNames(bigCenteredTitle ? 'mb-12' : 'mb-8')}
             bigCentered={bigCenteredTitle}
           />
         )}
         <div className="grid gap-5 sm:grid-cols-2">
-          <Repeater propName="cards" />
+          <Repeater propName="cards" items={cards} />
         </div>
       </Container>
     </Section>

@@ -1,8 +1,6 @@
-import React from 'react'
-import { Link, RichText, types } from 'react-bricks/frontend'
+import { Link, RichText, types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
-import Container from '../../shared/components/Container'
-import Section from '../../shared/components/Section'
 import {
   containerWidthSideGroup,
   LayoutProps,
@@ -10,8 +8,12 @@ import {
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../../LayoutSideProps'
+import Container from '../../shared/components/Container'
+import Section from '../../shared/components/Section'
 
-interface ParagraphProps extends LayoutProps {}
+interface ParagraphProps extends LayoutProps {
+  text: types.TextValue
+}
 
 const Paragraph: types.Brick<ParagraphProps> = ({
   backgroundColor,
@@ -20,6 +22,7 @@ const Paragraph: types.Brick<ParagraphProps> = ({
   paddingTop,
   paddingBottom,
   width,
+  text,
 }) => {
   return (
     <Section
@@ -34,6 +37,7 @@ const Paragraph: types.Brick<ParagraphProps> = ({
       >
         <RichText
           propName="text"
+          value={text}
           placeholder="Paragraph..."
           renderBlock={({ children }) => (
             <p className="text-base leading-7 mt-6 mb-6 text-gray-800 dark:text-gray-100">
@@ -75,9 +79,11 @@ const Paragraph: types.Brick<ParagraphProps> = ({
               {children}
             </ol>
           )}
-          renderLink={({ children, href }) => (
+          renderLink={({ children, href, target, rel }) => (
             <Link
               href={href}
+              target={target}
+              rel={rel}
               className="inline-block text-sky-500 hover:text-sky-600 font-bold hover:-translate-y-px hover:underline transition-all ease-out duration-150"
             >
               {children}

@@ -1,19 +1,20 @@
 import React from 'react'
 import classNames from 'classnames'
-import { types, Plain } from 'react-bricks/frontend'
-import { Text } from 'react-bricks/frontend'
+import { types, Text, Plain } from 'react-bricks/rsc'
 import blockNames from '../blockNames'
 import { pricingColors, PricingColorValue } from '../colors'
 
 interface PlanFeatureProps {
   withTag?: boolean
-  featureText: string
+  featureText: types.TextValue
+  tag: types.TextValue
   pricingColor: PricingColorValue
 }
 
 const PlanFeature: types.Brick<PlanFeatureProps> = ({
   withTag,
   featureText,
+  tag,
   pricingColor,
 }) => {
   const featureTextContent =
@@ -41,16 +42,19 @@ const PlanFeature: types.Brick<PlanFeatureProps> = ({
       )}
 
       <Text
+        propName="featureText"
+        value={featureText}
         renderBlock={(props) => <span>{props.children}</span>}
         placeholder="type a text"
-        propName="featureText"
       />
       {withTag && featureTextContent !== '' ? (
         <Text
+          propName="tag"
+          value={tag}
           renderBlock={(props) => (
             <div
               className={classNames(
-                'ml-1.5 min-w-[30px] px-1 py-1 leading-none rounded font-medium text-sm',
+                'ml-1.5 min-w-[30px] px-1 py-1 leading-none rounded-sm font-medium text-sm',
                 pricingColor.featureTagClassName
               )}
             >
@@ -58,7 +62,6 @@ const PlanFeature: types.Brick<PlanFeatureProps> = ({
             </div>
           )}
           placeholder="tag"
-          propName="tag"
         />
       ) : null}
     </div>

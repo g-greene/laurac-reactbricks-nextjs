@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { Repeater, types } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
+
 import {
-  containerWidthSideGroup,
   LayoutProps,
+  containerWidthSideGroup,
   neutralBackgroundSideGroup,
   paddingBordersSideGroup,
   sectionDefaults,
@@ -11,7 +11,9 @@ import blockNames from '../blockNames'
 import Container from '../shared/components/Container'
 import Section from '../shared/components/Section'
 
-export interface FaqProps extends LayoutProps {}
+export interface FaqProps extends LayoutProps {
+  faqs: types.RepeaterItems
+}
 
 const Faq: types.Brick<FaqProps> = ({
   backgroundColor,
@@ -20,16 +22,21 @@ const Faq: types.Brick<FaqProps> = ({
   paddingTop,
   paddingBottom,
   width,
+  faqs,
 }) => {
   return (
-    <Section backgroundColor={backgroundColor} borderTop={borderTop} borderBottom={borderBottom}>
+    <Section
+      backgroundColor={backgroundColor}
+      borderTop={borderTop}
+      borderBottom={borderBottom}
+    >
       <Container
         size={width}
         paddingTop={paddingTop}
         paddingBottom={paddingBottom}
         className="flex flex-col space-y-12"
       >
-        <Repeater propName="faqs" />
+        <Repeater propName="faqs" items={faqs} />
       </Container>
     </Section>
   )
@@ -63,7 +70,11 @@ Faq.schema = {
       itemLabel: 'Question',
     },
   ],
-  sideEditProps: [neutralBackgroundSideGroup, paddingBordersSideGroup, containerWidthSideGroup],
+  sideEditProps: [
+    neutralBackgroundSideGroup,
+    paddingBordersSideGroup,
+    containerWidthSideGroup,
+  ],
 }
 
 export default Faq

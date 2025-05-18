@@ -1,4 +1,4 @@
-import { types } from 'react-bricks/frontend'
+import { types } from 'react-bricks/rsc'
 
 // LAYOUT
 import Header from './layout/Header'
@@ -68,6 +68,7 @@ import Offices from './contacts/Offices/Offices'
 import Office from './contacts/Offices/Office'
 import ContactsForm from './contacts/ContactsForm/ContactsForm'
 import Map from './contacts/Map/Map'
+import FormSection from './contacts/FormSection/FormSection'
 import FormBuilder from './contacts/FormBuilder/FormBuilder'
 import FormInput from './contacts/FormBuilder/FormInput'
 import FormTextarea from './contacts/FormBuilder/FormTextarea'
@@ -85,19 +86,19 @@ import PlanFeature from './pricing/PlanFeature'
 import Title from './singleColumnContent/Title/Title'
 import Paragraph from './singleColumnContent/Paragraph/Paragraph'
 import BigImage from './singleColumnContent/BigImage/BigImage'
-import BigHeroImage from '../custom/BigHeroImage'
 import Video from './singleColumnContent/Video/Video'
 import Code from './singleColumnContent/Code/Code'
 import Table from './singleColumnContent/Table/Table'
 import TableRow from './singleColumnContent/Table/TableRow'
 import TableCell from './singleColumnContent/Table/TableCell'
 import Tweet from './singleColumnContent/Tweet/Tweet'
-import TweetLight from './singleColumnContent/Tweet/TweetLight'
+// import TweetLight from './singleColumnContent/Tweet/TweetLight'
 import BlogTitle from './singleColumnContent/BlogTitle/BlogTitle'
 
 // DOCUMENTS
 import Documents from './Documents/Documents'
 import Document from './Documents/Document'
+// import ExternalData from './singleColumnContent/ExternalData/ExternalData'
 
 // Theme structure
 const allBricks: types.Theme = {
@@ -159,6 +160,7 @@ const allBricks: types.Theme = {
         Office,
         ContactsForm,
         Map,
+        FormSection,
         FormBuilder,
         FormInput,
         FormTextarea,
@@ -178,15 +180,15 @@ const allBricks: types.Theme = {
         Title,
         Paragraph,
         BigImage,
-        BigHeroImage,
         Video,
         Code,
         Table,
         TableRow,
         TableCell,
         Tweet,
-        TweetLight,
+        // TweetLight,
         BlogTitle,
+        // ExternalData,
       ],
     },
     {
@@ -262,22 +264,21 @@ export {
   Video,
   HorizontalRule,
   Spacer,
-  FormBuilder,
-  FormCheckbox,
-  FormInput,
-  FormSelect,
-  FormRadiobuttons,
-  FormSingleRadio,
-  FormTextarea,
+  // FormBuilder,
+  // FormCheckbox,
+  // FormInput,
+  // FormSelect,
+  // FormRadiobuttons,
+  // FormSingleRadio,
+  // FormTextarea,
   Table,
   TableRow,
   TableCell,
   Code,
   Paragraph,
   BigImage,
-  BigHeroImage,
   Tweet,
-  TweetLight,
+  // TweetLight,
   Pricing,
   PricingPlan,
   PlanFeature,

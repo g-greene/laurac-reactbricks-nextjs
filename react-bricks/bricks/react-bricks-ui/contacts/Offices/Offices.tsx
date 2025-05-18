@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
-import { Repeater, types, Text } from 'react-bricks/frontend'
+import { Repeater, types } from 'react-bricks/rsc'
 import blockNames from '../../blockNames'
 import {
   LayoutProps,
@@ -15,6 +15,9 @@ import TitleSubtitle from '../../shared/components/TitleSubtitle'
 export interface OfficesProps extends LayoutProps {
   withTitle: boolean
   bigCenteredTitle?: boolean
+  title: types.TextValue
+  subtitle: types.TextValue
+  offices: types.RepeaterItems
 }
 
 const Offices: types.Brick<OfficesProps> = ({
@@ -26,18 +29,31 @@ const Offices: types.Brick<OfficesProps> = ({
   width,
   withTitle,
   bigCenteredTitle,
+  title,
+  subtitle,
+  offices,
 }) => {
   return (
-    <Section backgroundColor={backgroundColor} borderTop={borderTop} borderBottom={borderBottom}>
-      <Container paddingTop={paddingTop} paddingBottom={paddingBottom} size={width}>
+    <Section
+      backgroundColor={backgroundColor}
+      borderTop={borderTop}
+      borderBottom={borderBottom}
+    >
+      <Container
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
+        size={width}
+      >
         {withTitle && (
           <TitleSubtitle
+            title={title}
+            subtitle={subtitle}
             bigCentered={bigCenteredTitle}
             className={classNames(bigCenteredTitle ? 'mb-12' : 'mb-8')}
           />
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <Repeater propName="offices" />
+          <Repeater propName="offices" items={offices} />
         </div>
       </Container>
     </Section>
@@ -56,7 +72,8 @@ Offices.schema = {
     withTitle: true,
     bigCenteredTitle: false,
     title: 'Our offices',
-    subtitle: 'We have offices in the US and in Europe. Call on us for a coffee ☕️',
+    subtitle:
+      'We have offices in the US and in Europe. Call on us for a coffee ☕️',
     offices: [
       {
         city: 'San Francisco',
@@ -88,7 +105,7 @@ Offices.schema = {
       name: 'bigCenteredTitle',
       label: 'Big centered',
       type: types.SideEditPropType.Boolean,
-      show: (props) => !!props.withTitle,
+      show: (props, page, user) => !!props.withTitle,
     },
   ],
   repeaterItems: [

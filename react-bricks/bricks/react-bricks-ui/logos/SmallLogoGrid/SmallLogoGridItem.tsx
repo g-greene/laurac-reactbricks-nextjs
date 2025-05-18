@@ -1,18 +1,24 @@
 import classNames from 'classnames'
 import * as React from 'react'
-import { Image, Link, types } from 'react-bricks/frontend'
+import { Image, Link, types } from 'react-bricks/rsc'
 import { iconLogos } from '../../shared/defaultImages'
 import blockNames from '../../blockNames'
 
 export interface SmallLogoGridItemProps {
   link: string
   targetBlank: boolean
+  image: types.IImageSource
 }
 
-const Content: React.FC = () => (
+interface ContentProps {
+  image: types.IImageSource
+}
+
+const Content: React.FC<ContentProps> = ({ image }) => (
   <div className="content-none pb-[100%] relative">
     <Image
       propName="image"
+      source={image}
       alt="customer"
       imageClassName="absolute top-0 left-0 w-full h-full object-contain"
     />
@@ -22,6 +28,7 @@ const Content: React.FC = () => (
 const SmallLogoGridItem: types.Brick<SmallLogoGridItemProps> = ({
   link,
   targetBlank,
+  image,
 }) => {
   return (
     <Link
@@ -29,7 +36,7 @@ const SmallLogoGridItem: types.Brick<SmallLogoGridItemProps> = ({
       target={targetBlank ? '_blank' : '_self'}
       className="rounded-md p-1"
     >
-      <Content />
+      <Content image={image} />
     </Link>
   )
 }

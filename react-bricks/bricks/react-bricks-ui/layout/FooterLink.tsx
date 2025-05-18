@@ -1,25 +1,19 @@
+import { Link, Text, types } from 'react-bricks/rsc'
+
 import blockNames from '../blockNames'
-import React from 'react'
-import {
-  Text,
-  RichText,
-  Image,
-  File,
-  Repeater,
-  types,
-  Link,
-} from 'react-bricks/frontend'
 import { textColors } from '../colors'
 
 interface FooterLinkProps {
   linkPath: string
+  linkText: types.TextValue
 }
 
-const FooterLink: types.Brick<FooterLinkProps> = ({ linkPath }) => {
+const FooterLink: types.Brick<FooterLinkProps> = ({ linkPath, linkText }) => {
   return (
     <Link href={linkPath}>
       <Text
         propName="linkText"
+        value={linkText}
         placeholder="Link..."
         renderBlock={({ children }) => (
           <div

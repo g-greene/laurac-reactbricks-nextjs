@@ -1,9 +1,6 @@
-import React from 'react'
-import { Image, types } from 'react-bricks/frontend'
+import { Image, types } from 'react-bricks/rsc'
+
 import blockNames from '../../blockNames'
-import Container from '../../shared/components/Container'
-import Section from '../../shared/components/Section'
-import { photos } from '../../shared/defaultImages'
 import {
   containerWidthSideGroup,
   LayoutProps,
@@ -11,8 +8,13 @@ import {
   paddingBordersSideGroup,
   sectionDefaults,
 } from '../../LayoutSideProps'
+import Container from '../../shared/components/Container'
+import Section from '../../shared/components/Section'
+import { photos } from '../../shared/defaultImages'
 
-interface BigImageProps extends LayoutProps {}
+interface BigImageProps extends LayoutProps {
+  image: types.IImageSource
+}
 
 const BigImage: types.Brick<BigImageProps> = ({
   backgroundColor,
@@ -21,6 +23,7 @@ const BigImage: types.Brick<BigImageProps> = ({
   paddingTop,
   paddingBottom,
   width,
+  image,
 }) => {
   return (
     <Section
@@ -33,7 +36,7 @@ const BigImage: types.Brick<BigImageProps> = ({
         paddingTop={paddingTop}
         paddingBottom={paddingBottom}
       >
-        <Image propName="image" alt="Image" maxWidth={1200} />
+        <Image propName="image" source={image} alt="Image" maxWidth={1200} />
       </Container>
     </Section>
   )

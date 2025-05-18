@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import React from 'react'
-import { Text, types, usePageValues } from 'react-bricks/frontend'
+import { Text, types, getPageValues } from 'react-bricks/rsc'
+
 import DefaultAvatar from './DefaultAvatar'
 import Section from '../../shared/components/Section'
 import Container from '../../shared/components/Container'
@@ -20,7 +21,8 @@ const BlogTitle: types.Brick<BlogTitleProps> = ({
   paddingTop,
   paddingBottom,
 }) => {
-  const [pageValues] = usePageValues()
+  const pageValues = getPageValues()
+
   return (
     <Section
       backgroundColor={backgroundColor}
@@ -66,9 +68,10 @@ const BlogTitle: types.Brick<BlogTitleProps> = ({
         />
 
         <div className="flex items-center space-x-2">
-          {pageValues.author.avatarUrl ? (
+          {pageValues?.author.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={pageValues.author.avatarUrl}
+              src={pageValues?.author.avatarUrl}
               alt="Author"
               className="rounded-full w-10 h-10"
             />
@@ -82,8 +85,8 @@ const BlogTitle: types.Brick<BlogTitleProps> = ({
                 textColors.GRAY_800
               )}
             >
-              {pageValues.author.firstName || 'John'}{' '}
-              {pageValues.author.lastName || 'Doe'}
+              {pageValues?.author.firstName || 'John'}{' '}
+              {pageValues?.author.lastName || 'Doe'}
             </div>
             <div
               className={classNames(
@@ -91,7 +94,7 @@ const BlogTitle: types.Brick<BlogTitleProps> = ({
                 textColors.GRAY_500
               )}
             >
-              {dayjs(pageValues.publishedAt || new Date()).format(
+              {dayjs(pageValues?.publishedAt || new Date()).format(
                 'MMMM DD, YYYY'
               )}
             </div>

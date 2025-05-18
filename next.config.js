@@ -1,7 +1,6 @@
-module.exports = {
-  i18n: {
-    locales: ['en'], // Add your languages here
-    defaultLocale: 'en',
-    localeDetection: false,
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: false,
 }
+
+module.exports = nextConfig

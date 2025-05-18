@@ -1,23 +1,27 @@
-import * as React from 'react'
 import classNames from 'classnames'
+import { Link, RichText, Text, types } from 'react-bricks/rsc'
 
-import { Text, RichText, types, Link } from 'react-bricks/frontend'
-import { textColors } from '../colors'
 import blockNames from '../blockNames'
+import { textColors } from '../colors'
 
-interface FaqQuestionProps {
+export interface FaqQuestionProps {
   id: string
-  question?: string
-  answer?: string
+  question: types.TextValue
+  answer: types.TextValue
 }
 
-const FaqQuestion: types.Brick<FaqQuestionProps> = ({ id }) => {
+const FaqQuestion: types.Brick<FaqQuestionProps> = ({
+  id,
+  question,
+  answer,
+}) => {
   const idAttribute = id ? { id } : {}
 
   return (
     <div className="leading-6">
       <Text
         propName="question"
+        value={question}
         renderBlock={(props) => (
           <h3
             {...idAttribute}
@@ -49,6 +53,7 @@ const FaqQuestion: types.Brick<FaqQuestionProps> = ({ id }) => {
       />
       <RichText
         propName="answer"
+        value={answer}
         renderBlock={(props) => (
           <p className={textColors.GRAY_800} {...props.attributes}>
             {props.children}
@@ -56,9 +61,11 @@ const FaqQuestion: types.Brick<FaqQuestionProps> = ({ id }) => {
         )}
         placeholder="Answer..."
         allowedFeatures={[types.RichTextFeatures.Link]}
-        renderLink={({ children, href }) => (
+        renderLink={({ children, href, target, rel }) => (
           <Link
             href={href}
+            target={target}
+            rel={rel}
             className="inline-block text-sky-500 hover:text-sky-600 hover:-translate-y-px transition-all ease-out duration-150"
           >
             {children}
